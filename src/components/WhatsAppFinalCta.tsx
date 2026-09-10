@@ -1,4 +1,5 @@
 import React from 'react';
+import { motion } from 'motion/react';
 import { STORE_CONFIG, buildWhatsAppLink } from '../config';
 import { MessageCircle, Video, Scissors, Truck, Clock, Sparkles } from 'lucide-react';
 
@@ -29,22 +30,35 @@ export const WhatsAppFinalCta: React.FC = () => {
   return (
     <section className="py-16 sm:py-20 bg-[#FAF7F2] border-t border-[#E8DFC8]">
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-        {/* Header */}
-        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#1B4332]/10 border border-[#1B4332]/20 text-xs font-semibold tracking-wider text-[#1B4332] uppercase mb-4">
-          <Sparkles className="w-3.5 h-3.5 text-[#1B4332]" />
-          <span>One-Tap Boutique Assistance</span>
-        </div>
+        {/* Header with Viewport Animation */}
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-40px' }}
+          transition={{ duration: 0.5, ease: 'easeOut' }}
+        >
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#1B4332]/10 border border-[#1B4332]/20 text-xs font-semibold tracking-wider text-[#1B4332] uppercase mb-4">
+            <Sparkles className="w-3.5 h-3.5 text-[#1B4332]" />
+            <span>One-Tap Boutique Assistance</span>
+          </div>
 
-        <h2 className="font-serif text-3xl sm:text-4xl text-[#350C15] font-normal tracking-tight max-w-2xl mx-auto mb-4">
-          Have Questions? Chat Directly With Our Boutique Team
-        </h2>
+          <h2 className="font-serif text-3xl sm:text-4xl text-[#350C15] font-normal tracking-tight max-w-2xl mx-auto mb-4">
+            Have Questions? Chat Directly With Our Boutique Team
+          </h2>
 
-        <p className="text-sm sm:text-base text-[#6E5D53] max-w-xl mx-auto mb-8 font-light">
-          No automated bots. When you tap below, you connect straight with our in-house ethnic stylists on WhatsApp.
-        </p>
+          <p className="text-sm sm:text-base text-[#6E5D53] max-w-xl mx-auto mb-8 font-light">
+            No automated bots. When you tap below, you connect straight with our in-house ethnic stylists on WhatsApp.
+          </p>
+        </motion.div>
 
         {/* Big Main CTA Button */}
-        <div className="mb-10">
+        <motion.div
+          initial={{ opacity: 0, scale: 0.95 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          viewport={{ once: true, margin: '-40px' }}
+          transition={{ duration: 0.5, delay: 0.1, ease: 'easeOut' }}
+          className="mb-10"
+        >
           <a
             id="final-section-whatsapp-btn"
             href={buildWhatsAppLink(STORE_CONFIG.defaultWhatsappMessage)}
@@ -59,10 +73,16 @@ export const WhatsAppFinalCta: React.FC = () => {
             <Clock className="w-3.5 h-3.5 text-[#C59A45]" />
             <span>Typically replies within 10–15 minutes during store hours</span>
           </div>
-        </div>
+        </motion.div>
 
-        {/* Quick Assistance Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-left">
+        {/* Quick Assistance Cards with Staggered Viewport Entrance */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-40px' }}
+          transition={{ duration: 0.6, delay: 0.2, ease: 'easeOut' }}
+          className="grid grid-cols-1 md:grid-cols-3 gap-4 text-left"
+        >
           {quickQuestions.map((q, index) => {
             const Icon = q.icon;
             return (
@@ -91,7 +111,7 @@ export const WhatsAppFinalCta: React.FC = () => {
               </a>
             );
           })}
-        </div>
+        </motion.div>
       </div>
     </section>
   );

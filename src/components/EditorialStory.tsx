@@ -1,4 +1,5 @@
 import React from 'react';
+import { motion } from 'motion/react';
 import { STORE_CONFIG, buildWhatsAppLink } from '../config';
 import { Sparkles, MessageSquareHeart } from 'lucide-react';
 
@@ -13,8 +14,14 @@ export const EditorialStory: React.FC = () => {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
-          {/* Editorial Image Box */}
-          <div className="lg:col-span-6 order-2 lg:order-1">
+          {/* Editorial Image Box with Viewport Animation */}
+          <motion.div
+            initial={{ opacity: 0, x: -25 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, margin: '-40px' }}
+            transition={{ duration: 0.6, ease: 'easeOut' }}
+            className="lg:col-span-6 order-2 lg:order-1"
+          >
             <div className="relative mx-auto max-w-md lg:max-w-none">
               {/* Outer decorative gold frame offset */}
               <div className="absolute -inset-3 rounded-2xl border border-[#D4AF37]/30 transform -rotate-1 hidden sm:block pointer-events-none" />
@@ -34,10 +41,16 @@ export const EditorialStory: React.FC = () => {
                 </div>
               </div>
             </div>
-          </div>
+          </motion.div>
 
-          {/* Editorial Text Content */}
-          <div className="lg:col-span-6 order-1 lg:order-2 space-y-6 text-center lg:text-left">
+          {/* Editorial Text Content with Viewport Animation */}
+          <motion.div
+            initial={{ opacity: 0, x: 25 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, margin: '-40px' }}
+            transition={{ duration: 0.6, delay: 0.15, ease: 'easeOut' }}
+            className="lg:col-span-6 order-1 lg:order-2 space-y-6 text-center lg:text-left"
+          >
             <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#FAF7F2]/10 border border-[#D4AF37]/30 text-xs font-semibold tracking-[0.25em] text-[#D4AF37] uppercase">
               <Sparkles className="w-3.5 h-3.5 text-[#D4AF37]" />
               <span>{editorialStory.eyebrow}</span>
@@ -69,7 +82,7 @@ export const EditorialStory: React.FC = () => {
                 Complimentary festival styling on WhatsApp
               </span>
             </div>
-          </div>
+          </motion.div>
         </div>
       </div>
     </section>

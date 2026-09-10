@@ -1,4 +1,5 @@
 import React from 'react';
+import { motion } from 'motion/react';
 import { STORE_CONFIG } from '../config';
 import { CategoryType, Product } from '../types';
 import { ArrowRight, Sparkles } from 'lucide-react';
@@ -23,8 +24,14 @@ export const CategoryShowcase: React.FC<CategoryShowcaseProps> = ({
   return (
     <section className="py-12 sm:py-16 bg-[#FAF7F2]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Section Header */}
-        <div className="text-center max-w-2xl mx-auto mb-8 sm:mb-12">
+        {/* Section Header with Viewport Animation */}
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-40px' }}
+          transition={{ duration: 0.5, ease: 'easeOut' }}
+          className="text-center max-w-2xl mx-auto mb-8 sm:mb-12"
+        >
           <div className="inline-flex items-center gap-1.5 text-xs font-semibold tracking-[0.25em] text-[#C59A45] uppercase mb-2">
             <Sparkles className="w-3.5 h-3.5" />
             <span>Curated Silhouettes</span>
@@ -36,10 +43,16 @@ export const CategoryShowcase: React.FC<CategoryShowcaseProps> = ({
           <p className="text-sm sm:text-base text-[#6E5D53] font-normal">
             Discover handcrafted ensembles curated specifically for your celebratory gatherings.
           </p>
-        </div>
+        </motion.div>
 
-        {/* Categories Grid (Mobile horizontal or 2-col, desktop 5-col) */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-4 lg:gap-5">
+        {/* Categories Grid with Subtle Viewport Reveal */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-40px' }}
+          transition={{ duration: 0.6, delay: 0.1, ease: 'easeOut' }}
+          className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-4 lg:gap-5"
+        >
           {categories.map((cat) => {
             const count = getProductCount(cat.id);
             const isSelected = selectedCategory === cat.id;
@@ -92,7 +105,7 @@ export const CategoryShowcase: React.FC<CategoryShowcaseProps> = ({
               </button>
             );
           })}
-        </div>
+        </motion.div>
       </div>
     </section>
   );

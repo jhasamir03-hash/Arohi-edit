@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { STORE_CONFIG, buildWhatsAppLink } from '../config';
-import { MessageCircle, Share2, Sparkles, MapPin, X, Menu } from 'lucide-react';
+import { MessageCircle, Sparkles, X, Menu } from 'lucide-react';
 import { CategoryType } from '../types';
 
 interface HeaderProps {
@@ -13,108 +13,136 @@ interface HeaderProps {
 export const Header: React.FC<HeaderProps> = ({
   onSelectCategory,
   selectedCategory,
-  onOpenShareModal,
   onNavigateHome,
 }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-40 bg-[#FAF7F2]/95 backdrop-blur-md border-b border-[#E8DFC8]/60 transition-all">
-      {/* Top Festive Announcement Bar */}
-      <div className="bg-[#4A0E17] text-[#F3E5D0] px-4 py-1.5 text-xs text-center font-medium tracking-wide flex items-center justify-center gap-2">
-        <Sparkles className="w-3.5 h-3.5 text-[#D4AF37] animate-pulse" />
-        <span>{STORE_CONFIG.festivalSeason} • Direct WhatsApp Boutique Support</span>
-        <span className="hidden sm:inline text-[#D4AF37]/60">•</span>
-        <span className="hidden sm:inline text-[#F3E5D0]/80">Jamshedpur & Kolkata Boutiques</span>
+    <header className="sticky top-0 z-40 bg-[#FAF7F2]/95 backdrop-blur-md border-b border-[#E8DFC8]/70 transition-all">
+      {/* Top Subtle Festive Ticker */}
+      <div className="bg-[#350C15] text-[#F3E5D0] px-4 py-1 text-[11px] text-center font-medium tracking-wider flex items-center justify-center gap-2">
+        <Sparkles className="w-3 h-3 text-[#D4AF37]" />
+        <span>{STORE_CONFIG.festivalSeason}</span>
+        <span className="text-[#D4AF37]/50">•</span>
+        <span className="text-[#F3E5D0]/80">Jamshedpur & Kolkata Boutiques</span>
       </div>
 
-      {/* Main Navigation Bar */}
+      {/* Main Navigation Bar - Sleek & Minimalist */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16 sm:h-20">
-          {/* Mobile menu trigger */}
+        <div className="flex items-center justify-between h-14 sm:h-16">
+          {/* Mobile Menu Toggle Button */}
           <div className="flex items-center lg:hidden">
             <button
               id="mobile-nav-toggle-btn"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="p-2 text-[#4A0E17] hover:bg-[#EFE7DC] rounded-lg transition-colors focus:outline-none"
-              aria-label="Toggle navigation menu"
+              className="p-1.5 -ml-1.5 text-[#350C15] hover:bg-[#EFE7DC]/60 rounded-md transition-colors"
+              aria-label="Toggle categories"
             >
-              {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+              {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
             </button>
           </div>
 
-          {/* Brand Identity / Center on mobile, left on desktop */}
+          {/* Minimalist Brand Logo */}
           <div 
             onClick={onNavigateHome}
-            className="cursor-pointer text-center lg:text-left flex flex-col items-center lg:items-start group"
+            className="cursor-pointer flex items-baseline gap-2 group"
           >
-            <span className="font-serif text-2xl sm:text-3xl font-bold tracking-[0.2em] text-[#4A0E17] group-hover:text-[#722F37] transition-colors uppercase">
+            <span className="font-serif text-xl sm:text-2xl font-bold tracking-[0.22em] text-[#350C15] group-hover:text-[#5A121F] transition-colors uppercase">
               {STORE_CONFIG.brandName}
             </span>
-            <span className="text-[10px] tracking-[0.3em] text-[#8C7A6B] font-medium uppercase mt-0.5">
+            <span className="hidden sm:inline-block text-[9px] tracking-[0.3em] text-[#C59A45] font-semibold uppercase">
               {STORE_CONFIG.tagline}
             </span>
           </div>
 
-          {/* Desktop Category Navigation */}
-          <nav className="hidden lg:flex items-center space-x-1 xl:space-x-2">
+          {/* Desktop Minimalist Category Navigation */}
+          <nav className="hidden lg:flex items-center space-x-6 xl:space-x-8">
             <button
               onClick={() => onSelectCategory('All')}
-              className={`px-3 py-1.5 text-xs font-semibold tracking-wider uppercase transition-colors rounded-full ${
+              className={`text-xs tracking-wider uppercase font-medium transition-all relative py-1 ${
                 selectedCategory === 'All'
-                  ? 'bg-[#4A0E17] text-[#FAF7F2]'
-                  : 'text-[#4A0E17]/80 hover:text-[#4A0E17] hover:bg-[#EFE7DC]/60'
+                  ? 'text-[#350C15] font-semibold'
+                  : 'text-[#6E5D53] hover:text-[#350C15]'
               }`}
             >
-              All Pieces
+              <span>All</span>
+              {selectedCategory === 'All' && (
+                <span className="absolute bottom-0 inset-x-0 h-0.5 bg-[#C59A45] rounded-full" />
+              )}
             </button>
-            {STORE_CONFIG.categories.map((cat) => (
-              <button
-                key={cat.id}
-                onClick={() => onSelectCategory(cat.id)}
-                className={`px-3 py-1.5 text-xs font-semibold tracking-wider uppercase transition-colors rounded-full ${
-                  selectedCategory === cat.id
-                    ? 'bg-[#4A0E17] text-[#FAF7F2]'
-                    : 'text-[#4A0E17]/80 hover:text-[#4A0E17] hover:bg-[#EFE7DC]/60'
-                }`}
-              >
-                {cat.name}
-              </button>
-            ))}
+
+            {STORE_CONFIG.categories.map((cat) => {
+              const isSelected = selectedCategory === cat.id;
+              return (
+                <button
+                  key={cat.id}
+                  onClick={() => onSelectCategory(cat.id)}
+                  className={`text-xs tracking-wider uppercase font-medium transition-all relative py-1 ${
+                    isSelected
+                      ? 'text-[#350C15] font-semibold'
+                      : 'text-[#6E5D53] hover:text-[#350C15]'
+                  }`}
+                >
+                  <span>{cat.name}</span>
+                  {isSelected && (
+                    <span className="absolute bottom-0 inset-x-0 h-0.5 bg-[#C59A45] rounded-full" />
+                  )}
+                </button>
+              );
+            })}
           </nav>
 
-          {/* Action CTAs: Share & WhatsApp */}
-          <div className="flex items-center space-x-2 sm:space-x-3">
-            <button
-              id="header-share-catalog-btn"
-              onClick={onOpenShareModal}
-              title="Share or scan QR code"
-              className="p-2 sm:px-3 sm:py-2 text-[#4A0E17] hover:bg-[#EFE7DC] border border-[#E8DFC8] rounded-full text-xs font-medium flex items-center gap-1.5 transition-colors"
-            >
-              <Share2 className="w-4 h-4 text-[#C59A45]" />
-              <span className="hidden md:inline">Share Catalog</span>
-            </button>
-
+          {/* Minimalist Right CTA: Direct WhatsApp Connect */}
+          <div className="flex items-center">
             <a
               id="header-whatsapp-chat-btn"
               href={buildWhatsAppLink(STORE_CONFIG.defaultWhatsappMessage)}
               target="_blank"
               rel="noopener noreferrer"
-              className="bg-[#1B4332] hover:bg-[#143326] text-[#FAF7F2] px-3.5 py-2 rounded-full text-xs font-semibold tracking-wide flex items-center gap-2 shadow-sm transition-all transform active:scale-95"
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#1B4332] hover:bg-[#143326] text-[#FAF7F2] text-xs font-medium tracking-wide transition-all shadow-xs"
             >
-              <MessageCircle className="w-4 h-4 text-[#55D688]" />
-              <span className="hidden sm:inline">WhatsApp Chat</span>
-              <span className="sm:hidden">WhatsApp</span>
+              <MessageCircle className="w-3.5 h-3.5 text-[#55D688]" />
+              <span className="hidden sm:inline">WhatsApp</span>
             </a>
           </div>
         </div>
       </div>
 
-      {/* Mobile Drawer Menu */}
+      {/* Fast Horizontal Mobile Category Strip (Always 1-tap accessible on phone) */}
+      <div className="lg:hidden border-t border-[#E8DFC8]/60 bg-[#FAF7F2] px-3 py-2 overflow-x-auto no-scrollbar flex items-center gap-2">
+        <button
+          onClick={() => onSelectCategory('All')}
+          className={`px-3 py-1 rounded-full text-[11px] uppercase tracking-wider whitespace-nowrap transition-colors ${
+            selectedCategory === 'All'
+              ? 'bg-[#350C15] text-[#FAF7F2] font-semibold'
+              : 'bg-[#EFE7DC]/60 text-[#4A0E17]'
+          }`}
+        >
+          All
+        </button>
+        {STORE_CONFIG.categories.map((cat) => {
+          const isSelected = selectedCategory === cat.id;
+          return (
+            <button
+              key={cat.id}
+              onClick={() => onSelectCategory(cat.id)}
+              className={`px-3 py-1 rounded-full text-[11px] uppercase tracking-wider whitespace-nowrap transition-colors ${
+                isSelected
+                  ? 'bg-[#350C15] text-[#FAF7F2] font-semibold'
+                  : 'bg-[#EFE7DC]/60 text-[#4A0E17]'
+              }`}
+            >
+              {cat.name}
+            </button>
+          );
+        })}
+      </div>
+
+      {/* Expanded Minimalist Drawer for full overview */}
       {mobileMenuOpen && (
-        <div className="lg:hidden bg-[#FAF7F2] border-b border-[#E8DFC8] px-4 pt-3 pb-5 space-y-2 animate-in slide-in-from-top duration-200">
-          <div className="text-[11px] font-semibold tracking-wider text-[#8C7A6B] uppercase mb-1">
-            Browse Categories
+        <div className="lg:hidden bg-[#FAF7F2] border-t border-[#E8DFC8] px-4 py-4 space-y-3 animate-in slide-in-from-top-2 duration-150">
+          <div className="text-[10px] font-semibold tracking-widest text-[#8C7A6B] uppercase">
+            Browse By Category
           </div>
           <div className="grid grid-cols-2 gap-2">
             <button
@@ -123,10 +151,10 @@ export const Header: React.FC<HeaderProps> = ({
                 setMobileMenuOpen(false);
               }}
               className={`text-left px-3 py-2 rounded-lg text-xs font-medium transition-colors ${
-                selectedCategory === 'All' ? 'bg-[#4A0E17] text-white' : 'bg-[#EFE7DC]/50 text-[#4A0E17]'
+                selectedCategory === 'All' ? 'bg-[#350C15] text-white' : 'bg-white border border-[#E8DFC8] text-[#350C15]'
               }`}
             >
-              ✦ All Collection
+              ✦ Complete Collection
             </button>
             {STORE_CONFIG.categories.map((cat) => (
               <button
@@ -136,28 +164,12 @@ export const Header: React.FC<HeaderProps> = ({
                   setMobileMenuOpen(false);
                 }}
                 className={`text-left px-3 py-2 rounded-lg text-xs font-medium transition-colors ${
-                  selectedCategory === cat.id ? 'bg-[#4A0E17] text-white' : 'bg-[#EFE7DC]/50 text-[#4A0E17]'
+                  selectedCategory === cat.id ? 'bg-[#350C15] text-white' : 'bg-white border border-[#E8DFC8] text-[#350C15]'
                 }`}
               >
                 {cat.name}
               </button>
             ))}
-          </div>
-
-          <div className="pt-3 border-t border-[#E8DFC8] flex items-center justify-between text-xs text-[#8C7A6B]">
-            <span className="flex items-center gap-1">
-              <MapPin className="w-3.5 h-3.5 text-[#C59A45]" />
-              Jamshedpur & Kolkata
-            </span>
-            <button
-              onClick={() => {
-                onOpenShareModal();
-                setMobileMenuOpen(false);
-              }}
-              className="text-[#4A0E17] font-semibold underline underline-offset-2"
-            >
-              Get Store QR Code
-            </button>
           </div>
         </div>
       )}

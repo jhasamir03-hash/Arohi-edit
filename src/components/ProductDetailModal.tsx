@@ -192,14 +192,18 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
                 </h1>
 
                 {/* Price Display */}
-                <div className="flex items-baseline gap-3">
-                  <span className="font-serif text-2xl sm:text-3xl font-bold text-[#4A0E17]">
-                    {formatINR(product.price)}
-                  </span>
-                  {product.originalPrice && (
-                    <span className="text-sm sm:text-base text-[#8C7A6B] line-through font-normal">
-                      {formatINR(product.originalPrice)}
+                <div className="flex flex-wrap items-baseline gap-3">
+                  <div className="flex items-baseline gap-1 bg-white px-4 py-2 rounded-xl border border-[#E8DFC8] shadow-2xs">
+                    <span className="text-xl sm:text-2xl font-bold text-[#C59A45]">₹</span>
+                    <span className="text-2xl sm:text-3xl font-extrabold tracking-tight text-[#350C15]">
+                      {product.price.toLocaleString('en-IN')}
                     </span>
+                  </div>
+                  {product.originalPrice && (
+                    <div className="flex items-baseline gap-0.5 text-sm sm:text-base text-[#8C7A6B] line-through font-normal">
+                      <span>₹</span>
+                      <span>{product.originalPrice.toLocaleString('en-IN')}</span>
+                    </div>
                   )}
                   <span className="text-xs text-[#8C7A6B] font-light">
                     (Inclusive of all festival taxes)
@@ -354,8 +358,9 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
                     <div className="font-serif text-xs sm:text-sm font-medium text-[#241A1C] truncate group-hover:text-[#5A121F]">
                       {rel.name}
                     </div>
-                    <div className="font-serif text-xs font-bold text-[#4A0E17] mt-0.5">
-                      {formatINR(rel.price)}
+                    <div className="flex items-baseline gap-0.5 font-bold text-[#350C15] mt-1 text-xs sm:text-sm">
+                      <span className="text-[#C59A45] font-semibold">₹</span>
+                      <span>{rel.price.toLocaleString('en-IN')}</span>
                     </div>
                   </div>
                 ))}
@@ -367,9 +372,10 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
         {/* Mobile Sticky Bottom Conversion Bar */}
         <div className="sm:hidden sticky bottom-0 z-20 bg-[#FAF7F2] px-4 py-3 border-t border-[#E8DFC8] flex items-center justify-between gap-3 shadow-lg">
           <div>
-            <div className="text-[10px] text-[#8C7A6B] uppercase tracking-wider">Price</div>
-            <div className="font-serif text-lg font-bold text-[#4A0E17]">
-              {formatINR(product.price)}
+            <div className="text-[10px] text-[#8C7A6B] uppercase tracking-wider font-medium">Price</div>
+            <div className="flex items-baseline gap-0.5 font-bold text-[#350C15]">
+              <span className="text-sm font-semibold text-[#C59A45]">₹</span>
+              <span className="text-lg tracking-tight font-extrabold">{product.price.toLocaleString('en-IN')}</span>
             </div>
           </div>
           <a

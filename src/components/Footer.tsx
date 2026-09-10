@@ -1,7 +1,7 @@
 import React from 'react';
-import { STORE_CONFIG, buildWhatsAppLink } from '../config';
+import { STORE_CONFIG } from '../config';
 import { CategoryType } from '../types';
-import { MapPin, Phone, Clock, MessageCircle, Heart, Sparkles } from 'lucide-react';
+import { MapPin, Clock, Heart, Sparkles, Phone } from 'lucide-react';
 
 interface FooterProps {
   onSelectCategory: (cat: CategoryType | 'All') => void;
@@ -11,34 +11,46 @@ export const Footer: React.FC<FooterProps> = ({ onSelectCategory }) => {
   const { brandName, tagline, storeLocations, footer, categories } = STORE_CONFIG;
 
   return (
-    <footer className="bg-[#24060C] text-[#E8DFC8] pt-14 pb-10 border-t border-[#D4AF37]/30">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
-          {/* Brand Col */}
-          <div className="space-y-4">
-            <div>
-              <span className="font-serif text-2xl font-bold tracking-[0.2em] text-[#FAF7F2] uppercase">
-                {brandName}
-              </span>
-              <p className="text-[10px] tracking-[0.3em] text-[#C59A45] font-semibold uppercase mt-0.5">
-                {tagline}
-              </p>
-            </div>
-            <p className="text-xs text-[#D3C7B5] leading-relaxed font-light">
-              {footer.about}
-            </p>
-            <div className="text-xs text-[#C59A45] flex items-center gap-1.5 pt-1">
-              <Sparkles className="w-3.5 h-3.5" />
-              <span>{footer.deliveryNotice}</span>
-            </div>
+    <footer className="bg-[#20040A] text-[#E8DFC8] pt-16 pb-12 border-t border-[#D4AF37]/30 relative overflow-hidden">
+      {/* Subtle festive background glow */}
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-96 h-40 bg-[#C59A45]/10 blur-3xl pointer-events-none" />
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        {/* Centered Brand Identity Section */}
+        <div className="text-center max-w-2xl mx-auto mb-12 flex flex-col items-center">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#FAF7F2]/5 border border-[#D4AF37]/30 text-[#D4AF37] text-[11px] font-semibold tracking-[0.25em] uppercase mb-4">
+            <Sparkles className="w-3 h-3 text-[#D4AF37]" />
+            <span>Festive Showroom</span>
           </div>
 
-          {/* Quick Categories Navigation */}
-          <div className="space-y-3">
-            <h4 className="font-serif text-sm font-semibold tracking-wider text-[#FAF7F2] uppercase">
+          <h2 className="font-serif text-3xl sm:text-4xl font-bold tracking-[0.25em] text-[#FAF7F2] uppercase mb-1">
+            {brandName}
+          </h2>
+
+          <p className="text-xs tracking-[0.35em] text-[#C59A45] font-semibold uppercase mb-4">
+            {tagline}
+          </p>
+
+          <p className="text-xs sm:text-sm text-[#D3C7B5] leading-relaxed font-light max-w-lg mx-auto mb-4">
+            {footer.about}
+          </p>
+
+          <div className="inline-flex items-center gap-2 text-xs text-[#E6CA65] bg-[#350C15]/70 px-4 py-1.5 rounded-full border border-[#D4AF37]/20">
+            <Sparkles className="w-3.5 h-3.5 text-[#D4AF37]" />
+            <span>{footer.deliveryNotice}</span>
+          </div>
+
+          <div className="w-24 h-[1px] bg-gradient-to-r from-transparent via-[#D4AF37]/50 to-transparent mt-8" />
+        </div>
+
+        {/* Informational Columns (No WhatsApp or Share buttons) */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 py-8 border-y border-[#D4AF37]/15 text-center md:text-left">
+          {/* Col 1: Festival Collections */}
+          <div className="flex flex-col items-center md:items-start space-y-3">
+            <h4 className="font-serif text-xs font-semibold tracking-[0.2em] text-[#FAF7F2] uppercase">
               Festival Collections
             </h4>
-            <ul className="space-y-2 text-xs">
+            <ul className="space-y-2 text-xs text-[#D3C7B5]">
               <li>
                 <button
                   onClick={() => onSelectCategory('All')}
@@ -60,20 +72,20 @@ export const Footer: React.FC<FooterProps> = ({ onSelectCategory }) => {
             </ul>
           </div>
 
-          {/* Boutique Flagships (Kolkata & Jamshedpur) */}
-          <div className="space-y-3">
-            <h4 className="font-serif text-sm font-semibold tracking-wider text-[#FAF7F2] uppercase">
+          {/* Col 2: Boutique Stores */}
+          <div className="flex flex-col items-center md:items-start space-y-3">
+            <h4 className="font-serif text-xs font-semibold tracking-[0.2em] text-[#FAF7F2] uppercase">
               Boutique Stores
             </h4>
-            <div className="space-y-3 text-xs">
+            <div className="space-y-3 text-xs text-[#D3C7B5]">
               {storeLocations.map((loc, idx) => (
-                <div key={idx} className="space-y-1">
-                  <div className="font-medium text-[#FAF7F2] flex items-center gap-1.5">
+                <div key={idx} className="space-y-0.5">
+                  <div className="font-medium text-[#FAF7F2] flex items-center justify-center md:justify-start gap-1.5">
                     <MapPin className="w-3.5 h-3.5 text-[#C59A45]" />
                     <span>{loc.city}</span>
                   </div>
-                  <p className="text-[#A89F91] pl-5">{loc.address}</p>
-                  <p className="text-[11px] text-[#8C7A6B] pl-5 flex items-center gap-1">
+                  <p className="text-[#A89F91] text-[11px]">{loc.address}</p>
+                  <p className="text-[11px] text-[#C59A45]/80 flex items-center justify-center md:justify-start gap-1">
                     <Clock className="w-3 h-3 text-[#C59A45]" />
                     {loc.timing}
                   </p>
@@ -82,33 +94,30 @@ export const Footer: React.FC<FooterProps> = ({ onSelectCategory }) => {
             </div>
           </div>
 
-          {/* Direct Concierge Contact */}
-          <div className="space-y-3">
-            <h4 className="font-serif text-sm font-semibold tracking-wider text-[#FAF7F2] uppercase">
-              WhatsApp Concierge
+          {/* Col 3: Boutique Concierge Details */}
+          <div className="flex flex-col items-center md:items-start space-y-3">
+            <h4 className="font-serif text-xs font-semibold tracking-[0.2em] text-[#FAF7F2] uppercase">
+              Boutique Concierge
             </h4>
-            <p className="text-xs text-[#D3C7B5] leading-relaxed">
-              Order assistance, custom sizing, live video viewing, and international shipping queries.
+            <p className="text-xs text-[#D3C7B5] leading-relaxed max-w-xs">
+              Personal styling consultations, blouse tailoring, and video appointments during regular store hours.
             </p>
-            <a
-              href={buildWhatsAppLink(STORE_CONFIG.defaultWhatsappMessage)}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-4 py-2.5 rounded-full bg-[#1B4332] hover:bg-[#143326] text-white text-xs font-semibold tracking-wider transition-colors shadow-sm"
-            >
-              <MessageCircle className="w-4 h-4 text-[#55D688]" />
-              <span>Connect on WhatsApp</span>
-            </a>
-            <div className="text-[11px] text-[#8C7A6B] pt-1">
-              Store Support: +91 99999 99999
+            <div className="text-xs text-[#FAF7F2] space-y-1">
+              <div className="flex items-center justify-center md:justify-start gap-1.5 text-[#D4AF37]">
+                <Phone className="w-3.5 h-3.5" />
+                <span>Store Desk: +91 99999 99999</span>
+              </div>
+              <p className="text-[11px] text-[#A89F91]">
+                Kolkata & Jamshedpur Flagships
+              </p>
             </div>
           </div>
         </div>
 
         {/* Bottom Bar */}
-        <div className="pt-8 border-t border-[#D4AF37]/20 flex flex-col sm:flex-row items-center justify-between text-xs text-[#8C7A6B] gap-4">
+        <div className="pt-8 flex flex-col sm:flex-row items-center justify-between text-xs text-[#8C7A6B] gap-4 text-center sm:text-left">
           <p>{footer.copyright}</p>
-          <div className="flex items-center gap-1 text-[#A89F91]">
+          <div className="flex items-center justify-center gap-1.5 text-[#A89F91]">
             <span>Crafted for Indian Ethnic Boutiques with</span>
             <Heart className="w-3 h-3 text-[#B3394B] fill-current inline" />
             <span>• Festival Digital Catalog</span>

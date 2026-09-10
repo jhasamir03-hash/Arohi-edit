@@ -1,6 +1,7 @@
 import React from 'react';
 import { STORE_CONFIG, buildWhatsAppLink } from '../config';
 import { MessageCircle, ArrowDown, Sparkles, CheckCircle2 } from 'lucide-react';
+import { FestiveLights } from './FestiveLights';
 
 interface HeroProps {
   onExploreClick: () => void;
@@ -22,6 +23,9 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
         <div className="absolute inset-0 bg-gradient-to-t from-[#24060C] via-[#350C15]/80 to-[#24060C]/90" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-[#C59A45]/20 via-transparent to-transparent pointer-events-none" />
       </div>
+
+      {/* Animated Festive Lights Overlay */}
+      <FestiveLights />
 
       {/* Hero Content Box */}
       <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24 lg:py-32 text-center flex flex-col items-center">

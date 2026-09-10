@@ -1,4 +1,5 @@
 import React, { useState, useMemo } from 'react';
+import { motion } from 'motion/react';
 import { Product, CategoryType } from '../types';
 import { STORE_CONFIG } from '../config';
 import { ProductCard } from './ProductCard';
@@ -208,9 +209,15 @@ export const ProductGrid: React.FC<ProductGridProps> = ({
           </div>
         </div>
 
-        {/* Product Cards Grid */}
+        {/* Product Cards Grid with Subtle Viewport Entrance */}
         {filteredProducts.length > 0 ? (
-          <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-6">
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '-40px' }}
+            transition={{ duration: 0.5, ease: 'easeOut' }}
+            className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-6"
+          >
             {filteredProducts.map((product) => (
               <ProductCard
                 key={product.id}
@@ -218,7 +225,7 @@ export const ProductGrid: React.FC<ProductGridProps> = ({
                 onOpenDetail={onOpenDetail}
               />
             ))}
-          </div>
+          </motion.div>
         ) : (
           /* Empty Search / Filter State */
           <div className="bg-white rounded-2xl border border-[#E8DFC8] p-12 text-center max-w-md mx-auto my-8 shadow-xs">

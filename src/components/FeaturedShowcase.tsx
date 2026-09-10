@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { motion } from 'motion/react';
 import { Product } from '../types';
 import { ProductCard } from './ProductCard';
 import { Sparkles, Flame, Star, ArrowRight } from 'lucide-react';
@@ -25,15 +26,20 @@ export const FeaturedShowcase: React.FC<FeaturedShowcaseProps> = ({
     if (activeTab === 'new') {
       return products.filter((p) => p.badge === 'New');
     }
-    // 'featured' tab: items with featured: true or badge: 'Festive Pick'
     return products.filter((p) => p.featured || p.badge === 'Festive Pick').slice(0, 4);
   }, [products, activeTab]);
 
   return (
     <section className="py-12 sm:py-16 bg-[#FAF7F2] border-b border-[#E8DFC8]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Section Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-4">
+        {/* Section Header with Subtle Viewport Entrance */}
+        <motion.div
+          initial={{ opacity: 0, y: 18 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-40px' }}
+          transition={{ duration: 0.5, ease: 'easeOut' }}
+          className="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-4"
+        >
           <div>
             <div className="inline-flex items-center gap-1.5 text-xs font-semibold tracking-[0.25em] text-[#C59A45] uppercase mb-1.5">
               <Sparkles className="w-3.5 h-3.5" />
@@ -83,10 +89,16 @@ export const FeaturedShowcase: React.FC<FeaturedShowcaseProps> = ({
               <span>New Arrivals</span>
             </button>
           </div>
-        </div>
+        </motion.div>
 
-        {/* Product Cards Row */}
-        <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-6">
+        {/* Product Cards Grid */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-40px' }}
+          transition={{ duration: 0.6, delay: 0.1, ease: 'easeOut' }}
+          className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-6"
+        >
           {displayedProducts.map((product) => (
             <ProductCard
               key={product.id}
@@ -94,7 +106,7 @@ export const FeaturedShowcase: React.FC<FeaturedShowcaseProps> = ({
               onOpenDetail={onOpenDetail}
             />
           ))}
-        </div>
+        </motion.div>
 
         {/* Explore All Link */}
         <div className="mt-8 text-center">
