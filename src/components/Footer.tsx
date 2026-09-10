@@ -105,7 +105,7 @@ export const Footer: React.FC<FooterProps> = ({ onSelectCategory }) => {
             <div className="text-xs text-[#FAF7F2] space-y-1">
               <div className="flex items-center justify-center md:justify-start gap-1.5 text-[#D4AF37]">
                 <Phone className="w-3.5 h-3.5" />
-                <span>Store Desk: +91 99999 99999</span>
+                <span>Store Desk: +91 70331 42912</span>
               </div>
               <p className="text-[11px] text-[#A89F91]">
                 Kolkata & Jamshedpur Flagships

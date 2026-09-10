@@ -5,7 +5,7 @@ export const STORE_CONFIG: CatalogConfig = {
   tagline: 'The Festive Edit 2026',
   festivalCollectionName: 'The Festive Edit 2026',
   festivalSeason: 'Navratri & Diwali Celebration',
-  whatsappNumber: '919999999999',
+  whatsappNumber: '917033142912',
   defaultWhatsappMessage: "Hi, I'd like to know more about your Festive Edit 2026 collection.",
   
   hero: {
@@ -74,13 +74,13 @@ export const STORE_CONFIG: CatalogConfig = {
       city: 'Kolkata Flagship',
       address: 'Park Street Extension, Near Allen Park, Kolkata 700016',
       timing: '10:30 AM – 8:30 PM (All 7 Days)',
-      phone: '+91 99999 99999',
+      phone: '+91 70331 42912',
     },
     {
       city: 'Jamshedpur Boutique',
       address: 'Bistupur Main Road, Opp. Gopal Maidan, Jamshedpur 831001',
       timing: '10:30 AM – 8:00 PM (Mon–Sat)',
-      phone: '+91 99999 99999',
+      phone: '+91 70331 42912',
     },
   ],
 
