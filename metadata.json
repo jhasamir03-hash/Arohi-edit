@@ -1,0 +1,6 @@
+{
+  "name": "AAROHI - Festival Digital Catalog",
+  "description": "Mobile-first digital fashion showroom and WhatsApp conversion catalog for Indian ethnic-wear retailers.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
