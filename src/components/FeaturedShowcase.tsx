@@ -57,7 +57,7 @@ export const FeaturedShowcase: React.FC<FeaturedShowcaseProps> = ({
           <div className="flex items-center gap-2 bg-[#EFE7DC]/60 p-1 rounded-full border border-[#E8DFC8] self-start md:self-auto">
             <button
               onClick={() => setActiveTab('featured')}
-              className={`px-3.5 py-1.5 rounded-full text-xs font-semibold tracking-wider uppercase transition-all flex items-center gap-1.5 ${
+              className={`px-3.5 py-1.5 rounded-full text-xs font-semibold tracking-wider uppercase active:scale-95 transition-all duration-150 flex items-center gap-1.5 cursor-pointer ${
                 activeTab === 'featured'
                   ? 'bg-[#4A0E17] text-white shadow-xs'
                   : 'text-[#6E5D53] hover:text-[#4A0E17]'
@@ -68,7 +68,7 @@ export const FeaturedShowcase: React.FC<FeaturedShowcaseProps> = ({
             </button>
             <button
               onClick={() => setActiveTab('bestsellers')}
-              className={`px-3.5 py-1.5 rounded-full text-xs font-semibold tracking-wider uppercase transition-all flex items-center gap-1.5 ${
+              className={`px-3.5 py-1.5 rounded-full text-xs font-semibold tracking-wider uppercase active:scale-95 transition-all duration-150 flex items-center gap-1.5 cursor-pointer ${
                 activeTab === 'bestsellers'
                   ? 'bg-[#4A0E17] text-white shadow-xs'
                   : 'text-[#6E5D53] hover:text-[#4A0E17]'
@@ -79,7 +79,7 @@ export const FeaturedShowcase: React.FC<FeaturedShowcaseProps> = ({
             </button>
             <button
               onClick={() => setActiveTab('new')}
-              className={`px-3.5 py-1.5 rounded-full text-xs font-semibold tracking-wider uppercase transition-all flex items-center gap-1.5 ${
+              className={`px-3.5 py-1.5 rounded-full text-xs font-semibold tracking-wider uppercase active:scale-95 transition-all duration-150 flex items-center gap-1.5 cursor-pointer ${
                 activeTab === 'new'
                   ? 'bg-[#4A0E17] text-white shadow-xs'
                   : 'text-[#6E5D53] hover:text-[#4A0E17]'
@@ -112,7 +112,7 @@ export const FeaturedShowcase: React.FC<FeaturedShowcaseProps> = ({
         <div className="mt-8 text-center">
           <button
             onClick={onExploreAll}
-            className="inline-flex items-center gap-2 text-xs sm:text-sm font-semibold text-[#4A0E17] hover:text-[#722F37] uppercase tracking-wider group"
+            className="inline-flex items-center gap-2 text-xs sm:text-sm font-semibold text-[#4A0E17] hover:text-[#722F37] uppercase tracking-wider group active:scale-95 transition-all duration-150 cursor-pointer"
           >
             <span>Browse Complete Collection ({products.length} Designs)</span>
             <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />

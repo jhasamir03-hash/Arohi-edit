@@ -54,7 +54,7 @@ export const Footer: React.FC<FooterProps> = ({ onSelectCategory }) => {
               <li>
                 <button
                   onClick={() => onSelectCategory('All')}
-                  className="hover:text-[#D4AF37] transition-colors"
+                  className="hover:text-[#D4AF37] active:scale-95 transition-all duration-150 cursor-pointer"
                 >
                   All Ethnic Pieces (15)
                 </button>
@@ -63,12 +63,22 @@ export const Footer: React.FC<FooterProps> = ({ onSelectCategory }) => {
                 <li key={c.id}>
                   <button
                     onClick={() => onSelectCategory(c.id)}
-                    className="hover:text-[#D4AF37] transition-colors"
+                    className="hover:text-[#D4AF37] active:scale-95 transition-all duration-150 cursor-pointer"
                   >
                     {c.name}
                   </button>
                 </li>
               ))}
+              <li className="pt-1 border-t border-[#D4AF37]/20">
+                <button
+                  onClick={() => {
+                    document.getElementById('feedback-section')?.scrollIntoView({ behavior: 'smooth' });
+                  }}
+                  className="hover:text-[#D4AF37] active:scale-95 transition-all duration-150 cursor-pointer flex items-center gap-1 text-[#D4AF37]"
+                >
+                  <span>★ Patron Reviews & Feedback</span>
+                </button>
+              </li>
             </ul>
           </div>
 
@@ -108,7 +118,7 @@ export const Footer: React.FC<FooterProps> = ({ onSelectCategory }) => {
                 <span>Store Desk: +91 70331 42912</span>
               </div>
               <p className="text-[11px] text-[#A89F91]">
-                Kolkata & Jamshedpur Flagships
+                Atelier Showroom & Video Assistance
               </p>
             </div>
           </div>

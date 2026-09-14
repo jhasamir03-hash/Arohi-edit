@@ -124,7 +124,7 @@ export const ProductGrid: React.FC<ProductGridProps> = ({
           <div className="flex items-center gap-2 overflow-x-auto no-scrollbar pb-1">
             <button
               onClick={() => onSelectCategory('All')}
-              className={`px-4 py-2 rounded-full text-xs font-semibold tracking-wider uppercase whitespace-nowrap transition-all ${
+              className={`px-4 py-2 rounded-full text-xs font-semibold tracking-wider uppercase whitespace-nowrap active:scale-95 transition-all duration-150 cursor-pointer ${
                 selectedCategory === 'All'
                   ? 'bg-[#4A0E17] text-[#FAF7F2] shadow-sm'
                   : 'bg-white text-[#4A0E17] border border-[#E8DFC8] hover:bg-[#EFE7DC]'
@@ -138,7 +138,7 @@ export const ProductGrid: React.FC<ProductGridProps> = ({
                 <button
                   key={cat.id}
                   onClick={() => onSelectCategory(cat.id)}
-                  className={`px-4 py-2 rounded-full text-xs font-semibold tracking-wider uppercase whitespace-nowrap transition-all ${
+                  className={`px-4 py-2 rounded-full text-xs font-semibold tracking-wider uppercase whitespace-nowrap active:scale-95 transition-all duration-150 cursor-pointer ${
                     selectedCategory === cat.id
                       ? 'bg-[#4A0E17] text-[#FAF7F2] shadow-sm'
                       : 'bg-white text-[#4A0E17] border border-[#E8DFC8] hover:bg-[#EFE7DC]'
@@ -161,7 +161,7 @@ export const ProductGrid: React.FC<ProductGridProps> = ({
                 <button
                   key={badge}
                   onClick={() => setSelectedBadge(badge)}
-                  className={`px-3 py-1 rounded-full text-xs font-medium transition-colors whitespace-nowrap ${
+                  className={`px-3 py-1 rounded-full text-xs font-medium active:scale-95 transition-all duration-150 whitespace-nowrap cursor-pointer ${
                     selectedBadge === badge
                       ? 'bg-[#C59A45] text-[#24060C] font-semibold'
                       : 'bg-[#EFE7DC]/50 text-[#6E5D53] hover:bg-[#EFE7DC]'
@@ -186,7 +186,7 @@ export const ProductGrid: React.FC<ProductGridProps> = ({
                 <button
                   key={p.id}
                   onClick={() => setSelectedPrice(p.id as PriceFilter)}
-                  className={`px-3 py-1 rounded-full text-xs font-medium transition-colors whitespace-nowrap ${
+                  className={`px-3 py-1 rounded-full text-xs font-medium active:scale-95 transition-all duration-150 whitespace-nowrap cursor-pointer ${
                     selectedPrice === p.id
                       ? 'bg-[#1B4332] text-white font-semibold'
                       : 'bg-[#EFE7DC]/50 text-[#6E5D53] hover:bg-[#EFE7DC]'
@@ -199,7 +199,7 @@ export const ProductGrid: React.FC<ProductGridProps> = ({
               {hasActiveFilters && (
                 <button
                   onClick={handleResetFilters}
-                  className="px-2.5 py-1 text-xs text-[#5A121F] font-semibold hover:underline flex items-center gap-1 ml-1"
+                  className="px-2.5 py-1 text-xs text-[#5A121F] font-semibold hover:underline active:scale-95 transition-all duration-150 flex items-center gap-1 ml-1 cursor-pointer"
                 >
                   <X className="w-3 h-3" />
                   Reset
@@ -240,9 +240,9 @@ export const ProductGrid: React.FC<ProductGridProps> = ({
             </p>
             <button
               onClick={handleResetFilters}
-              className="px-5 py-2.5 rounded-full bg-[#4A0E17] text-white text-xs font-semibold uppercase tracking-wider hover:bg-[#350C15] transition-colors"
+              className="px-5 py-2.5 rounded-full bg-[#4A0E17] text-white text-xs font-semibold uppercase tracking-wider hover:bg-[#350C15] active:scale-95 transition-all duration-150 cursor-pointer"
             >
-              Show All 15 Pieces
+              Show All {products.length} Pieces
             </button>
           </div>
         )}

@@ -9,12 +9,37 @@ export interface ProductColor {
   hex: string;
 }
 
+export interface ProductReview {
+  id: string;
+  reviewerName: string;
+  city: string;
+  rating: number; // 1 to 5
+  date: string;
+  comment: string;
+  fitFeedback?: string;
+  verifiedPurchase: boolean;
+  helpfulCount: number;
+}
+
+export interface BoutiqueFeedback {
+  id: string;
+  name: string;
+  city: string;
+  rating: number;
+  date: string;
+  feedbackType: 'Fabric Quality' | 'Festive Fitting' | 'Customer Care' | 'Delivery & Packaging';
+  comment: string;
+  purchasedItem?: string;
+}
+
 export interface Product {
   id: string;
   name: string;
   category: CategoryType;
   price: number;
   originalPrice?: number;
+  isDemoPrice?: boolean;
+  hasVerifiedImage?: boolean;
   badge?: ProductBadge;
   fabric: string;
   colors: string[];
@@ -26,13 +51,17 @@ export interface Product {
   occasion?: string;
   careInstructions?: string;
   fitNotes?: string;
+  statusNote?: string;
+  rating: number;
+  reviewCount: number;
+  reviews?: ProductReview[];
 }
 
 export interface CategoryInfo {
   id: CategoryType;
   name: string;
   tagline: string;
-  image: string;
+  image?: string;
 }
 
 export interface StoreLocation {

@@ -2,7 +2,7 @@ import React from 'react';
 import { motion } from 'motion/react';
 import { STORE_CONFIG } from '../config';
 import { CategoryType, Product } from '../types';
-import { ArrowRight, Sparkles } from 'lucide-react';
+import { ArrowRight, Sparkles, Feather } from 'lucide-react';
 
 interface CategoryShowcaseProps {
   products: Product[];
@@ -41,7 +41,7 @@ export const CategoryShowcase: React.FC<CategoryShowcaseProps> = ({
           </h2>
           <div className="w-12 h-0.5 bg-[#C59A45] mx-auto mt-3 mb-3"></div>
           <p className="text-sm sm:text-base text-[#6E5D53] font-normal">
-            Discover handcrafted ensembles curated specifically for your celebratory gatherings.
+            Explore authentic handloom weaves and festive designs curated for Navratri & Diwali.
           </p>
         </motion.div>
 
@@ -61,32 +61,48 @@ export const CategoryShowcase: React.FC<CategoryShowcaseProps> = ({
               <button
                 key={cat.id}
                 onClick={() => onSelectCategory(cat.id)}
-                className={`group relative overflow-hidden rounded-xl sm:rounded-2xl text-left aspect-[4/5] sm:aspect-[3/4] shadow-sm transition-all duration-300 transform active:scale-95 focus:outline-none ${
+                className={`group relative overflow-hidden rounded-xl sm:rounded-2xl text-left aspect-[4/5] sm:aspect-[3/4] shadow-sm transition-all duration-300 transform active:scale-95 focus:outline-none cursor-pointer ${
                   isSelected
                     ? 'ring-3 ring-[#C59A45] ring-offset-2 ring-offset-[#FAF7F2]'
                     : 'hover:-translate-y-1 hover:shadow-md'
                 }`}
               >
-                {/* Background Image */}
-                <img
-                  src={cat.image}
-                  alt={cat.name}
-                  className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700"
-                  loading="lazy"
-                />
+                {/* Background: Verified photo or Luxury Editorial Canvas */}
+                {cat.image ? (
+                  <>
+                    <img
+                      src={cat.image}
+                      alt={cat.name}
+                      className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700"
+                      loading="lazy"
+                    />
+                    {/* Dark Editorial Gradient Overlay */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#24060C] via-[#24060C]/40 to-transparent group-hover:via-[#24060C]/60 transition-colors" />
+                  </>
+                ) : (
+                  <div className="w-full h-full bg-gradient-to-br from-[#350C15] via-[#4A0E17] to-[#1F0409] p-4 flex flex-col justify-between relative overflow-hidden">
+                    {/* Subtle gold decorative ring */}
+                    <div className="absolute -top-6 -right-6 w-28 h-28 rounded-full border border-[#D4AF37]/20 pointer-events-none" />
+                    <div className="absolute top-10 right-4 w-12 h-12 rounded-full border border-[#D4AF37]/10 pointer-events-none" />
 
-                {/* Dark Editorial Gradient Overlay */}
-                <div className="absolute inset-0 bg-gradient-to-t from-[#24060C] via-[#24060C]/40 to-transparent group-hover:via-[#24060C]/60 transition-colors" />
+                    {/* Category Motif Icon */}
+                    <div className="w-9 h-9 rounded-full bg-white/10 border border-[#D4AF37]/30 flex items-center justify-center text-[#D4AF37]">
+                      <Feather className="w-4 h-4 text-[#D4AF37]" />
+                    </div>
+
+                    <div className="relative z-10" />
+                  </div>
+                )}
 
                 {/* Badge if selected */}
                 {isSelected && (
-                  <div className="absolute top-2.5 right-2.5 bg-[#C59A45] text-[#24060C] text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider shadow">
+                  <div className="absolute top-2.5 right-2.5 bg-[#C59A45] text-[#24060C] text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider shadow z-10">
                     Viewing
                   </div>
                 )}
 
                 {/* Content at Bottom */}
-                <div className="absolute bottom-0 inset-x-0 p-3 sm:p-4 text-white">
+                <div className="absolute bottom-0 inset-x-0 p-3 sm:p-4 text-white z-10">
                   <div className="text-[10px] sm:text-xs font-semibold tracking-wider text-[#D4AF37] uppercase">
                     {count} {count === 1 ? 'Design' : 'Designs'}
                   </div>

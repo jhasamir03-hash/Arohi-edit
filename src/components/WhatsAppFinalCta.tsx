@@ -64,7 +64,7 @@ export const WhatsAppFinalCta: React.FC = () => {
             href={buildWhatsAppLink(STORE_CONFIG.defaultWhatsappMessage)}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center justify-center gap-3 px-8 sm:px-12 py-4 rounded-full bg-[#1B4332] hover:bg-[#143326] text-white font-semibold text-base sm:text-lg tracking-wide shadow-xl shadow-[#1B4332]/25 transition-all transform hover:-translate-y-0.5 active:translate-y-0"
+            className="inline-flex items-center justify-center gap-3 px-8 sm:px-12 py-4 rounded-full bg-[#1B4332] hover:bg-[#143326] text-white font-semibold text-base sm:text-lg tracking-wide shadow-xl shadow-[#1B4332]/25 transition-all duration-150 transform hover:-translate-y-0.5 active:scale-95 cursor-pointer"
           >
             <MessageCircle className="w-6 h-6 text-[#55D688]" />
             <span>Chat With Us on WhatsApp</span>
@@ -91,7 +91,7 @@ export const WhatsAppFinalCta: React.FC = () => {
                 href={buildWhatsAppLink(q.message)}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group bg-white p-5 rounded-2xl border border-[#E8DFC8] shadow-xs hover:shadow-md hover:border-[#C59A45]/60 transition-all flex flex-col justify-between"
+                className="group bg-white p-5 rounded-2xl border border-[#E8DFC8] shadow-xs hover:shadow-md hover:border-[#C59A45]/60 transition-all duration-150 active:scale-95 cursor-pointer flex flex-col justify-between"
               >
                 <div>
                   <div className="w-9 h-9 rounded-full bg-[#FAF7F2] border border-[#E8DFC8] flex items-center justify-center mb-3 text-[#4A0E17] group-hover:bg-[#4A0E17] group-hover:text-white transition-colors">

@@ -53,7 +53,7 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
           <button
             id="hero-explore-collection-btn"
             onClick={onExploreClick}
-            className="w-full sm:w-auto px-8 py-4 rounded-full bg-[#FAF7F2] text-[#350C15] hover:bg-[#EFE7DC] font-semibold text-sm sm:text-base tracking-wide uppercase shadow-lg shadow-black/30 transition-all transform hover:-translate-y-0.5 active:translate-y-0 flex items-center justify-center gap-2.5"
+            className="w-full sm:w-auto px-8 py-4 rounded-full bg-[#FAF7F2] text-[#350C15] hover:bg-[#EFE7DC] font-semibold text-sm sm:text-base tracking-wide uppercase shadow-lg shadow-black/30 transition-all duration-150 transform hover:-translate-y-0.5 active:scale-95 cursor-pointer flex items-center justify-center gap-2.5"
           >
             <span>{hero.primaryCtaText}</span>
             <ArrowDown className="w-4 h-4 text-[#350C15]" />
@@ -65,7 +65,7 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
             href={buildWhatsAppLink(STORE_CONFIG.defaultWhatsappMessage)}
             target="_blank"
             rel="noopener noreferrer"
-            className="w-full sm:w-auto px-8 py-4 rounded-full bg-[#1B4332] hover:bg-[#143326] text-[#FAF7F2] font-semibold text-sm sm:text-base tracking-wide flex items-center justify-center gap-2.5 border border-[#55D688]/30 shadow-lg shadow-black/20 transition-all transform hover:-translate-y-0.5 active:translate-y-0"
+            className="w-full sm:w-auto px-8 py-4 rounded-full bg-[#1B4332] hover:bg-[#143326] text-[#FAF7F2] font-semibold text-sm sm:text-base tracking-wide flex items-center justify-center gap-2.5 border border-[#55D688]/30 shadow-lg shadow-black/20 transition-all duration-150 transform hover:-translate-y-0.5 active:scale-95 cursor-pointer"
           >
             <MessageCircle className="w-5 h-5 text-[#55D688]" />
             <span>{hero.secondaryCtaText}</span>

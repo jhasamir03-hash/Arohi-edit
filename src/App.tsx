@@ -9,6 +9,7 @@ import { FeaturedShowcase } from './components/FeaturedShowcase';
 import { ProductGrid } from './components/ProductGrid';
 import { ProductDetailModal } from './components/ProductDetailModal';
 import { EditorialStory } from './components/EditorialStory';
+import { FeedbackSection } from './components/FeedbackSection';
 import { WhatsAppFinalCta } from './components/WhatsAppFinalCta';
 import { FloatingWhatsApp } from './components/FloatingWhatsApp';
 import { ShareCatalogModal } from './components/ShareCatalogModal';
@@ -115,6 +116,9 @@ export default function App() {
 
         {/* Editorial Story / Brand Breathing Moment */}
         <EditorialStory />
+
+        {/* Dedicated Patron Feedback & Reviews Section */}
+        <FeedbackSection />
 
         {/* Closing WhatsApp Concierge Section with Quick Question Cards */}
         <WhatsAppFinalCta />

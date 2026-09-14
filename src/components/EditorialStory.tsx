@@ -73,7 +73,7 @@ export const EditorialStory: React.FC = () => {
                 href={buildWhatsAppLink(`Hi ${brandName}, I loved your story and would like assistance selecting sarees for ${festivalSeason}.`)}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[#D4AF37] hover:bg-[#C59A45] text-[#24060C] font-semibold text-xs uppercase tracking-wider shadow-lg transition-all transform active:scale-95"
+                className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[#D4AF37] hover:bg-[#C59A45] text-[#24060C] font-semibold text-xs uppercase tracking-wider shadow-lg transition-all duration-150 transform active:scale-95 cursor-pointer"
               >
                 <MessageSquareHeart className="w-4 h-4" />
                 <span>Consult Our Boutique Stylist</span>
