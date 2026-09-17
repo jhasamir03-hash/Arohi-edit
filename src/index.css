@@ -2,12 +2,18 @@
 
 @layer base {
   body {
-    font-family: 'Montserrat', system-ui, -apple-system, sans-serif;
+    font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
     letter-spacing: -0.01em;
+    background-color: #FAF9F6;
+    color: #0C182B;
   }
 }
 
 .font-serif {
+  font-family: 'Cormorant Garamond', 'Playfair Display', Georgia, serif;
+}
+
+.font-playfair {
   font-family: 'Playfair Display', Georgia, serif;
 }
 
@@ -16,7 +22,7 @@
 }
 
 .font-sans {
-  font-family: 'Montserrat', system-ui, -apple-system, sans-serif;
+  font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
 }
 
 /* Hide scrollbar for clean horizontal story / product strips */
@@ -26,4 +32,9 @@
 .no-scrollbar {
   -ms-overflow-style: none;
   scrollbar-width: none;
+}
+
+/* Smooth mobile-touch active animations */
+button, a {
+  -webkit-tap-highlight-color: transparent;
 }

@@ -1,13 +1,12 @@
 import React from 'react';
-import { motion } from 'motion/react';
-import { STORE_CONFIG } from '../config';
+import { CATEGORIES_DATA } from '../config';
 import { CategoryType, Product } from '../types';
-import { ArrowRight, Sparkles, Feather } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 
 interface CategoryShowcaseProps {
   products: Product[];
   selectedCategory: CategoryType | 'All';
-  onSelectCategory: (category: CategoryType) => void;
+  onSelectCategory: (category: CategoryType | 'All') => void;
 }
 
 export const CategoryShowcase: React.FC<CategoryShowcaseProps> = ({
@@ -15,113 +14,97 @@ export const CategoryShowcase: React.FC<CategoryShowcaseProps> = ({
   selectedCategory,
   onSelectCategory,
 }) => {
-  const { categories } = STORE_CONFIG;
-
   const getProductCount = (categoryId: CategoryType) => {
     return products.filter((p) => p.category === categoryId).length;
   };
 
   return (
-    <section className="py-12 sm:py-16 bg-[#FAF7F2]">
+    <section id="categories-section" className="py-14 sm:py-20 bg-[#FAF9F6] border-b border-[#E9E5DD]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Section Header with Viewport Animation */}
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-40px' }}
-          transition={{ duration: 0.5, ease: 'easeOut' }}
-          className="text-center max-w-2xl mx-auto mb-8 sm:mb-12"
-        >
-          <div className="inline-flex items-center gap-1.5 text-xs font-semibold tracking-[0.25em] text-[#C59A45] uppercase mb-2">
-            <Sparkles className="w-3.5 h-3.5" />
-            <span>Curated Silhouettes</span>
+        {/* Section Header */}
+        <div className="text-center max-w-2xl mx-auto mb-10 sm:mb-14">
+          <div className="text-[10px] sm:text-xs font-semibold tracking-[0.25em] text-[#C5A880] uppercase mb-2">
+            Curated Lines
           </div>
-          <h2 className="font-serif text-3xl sm:text-4xl text-[#350C15] tracking-tight font-normal">
+          <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl text-[#0C182B] tracking-tight font-normal">
             Shop by Category
           </h2>
-          <div className="w-12 h-0.5 bg-[#C59A45] mx-auto mt-3 mb-3"></div>
-          <p className="text-sm sm:text-base text-[#6E5D53] font-normal">
-            Explore authentic handloom weaves and festive designs curated for Navratri & Diwali.
+          <div className="w-12 h-0.5 bg-[#C5A880] mx-auto mt-4 mb-4" />
+          <p className="text-sm sm:text-base text-[#4C5B70] font-normal leading-relaxed">
+            Discover bespoke silhouettes, tailored cuts, and refined occasion ensembles.
           </p>
-        </motion.div>
+        </div>
 
-        {/* Categories Grid with Subtle Viewport Reveal */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-40px' }}
-          transition={{ duration: 0.6, delay: 0.1, ease: 'easeOut' }}
-          className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-4 lg:gap-5"
-        >
-          {categories.map((cat) => {
+        {/* Categories Grid - 2 columns on mobile, 4 columns on desktop */}
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3.5 sm:gap-6">
+          {CATEGORIES_DATA.map((cat) => {
             const count = getProductCount(cat.id);
             const isSelected = selectedCategory === cat.id;
 
             return (
               <button
                 key={cat.id}
-                onClick={() => onSelectCategory(cat.id)}
-                className={`group relative overflow-hidden rounded-xl sm:rounded-2xl text-left aspect-[4/5] sm:aspect-[3/4] shadow-sm transition-all duration-300 transform active:scale-95 focus:outline-none cursor-pointer ${
+                onClick={() => onSelectCategory(isSelected ? 'All' : cat.id)}
+                className={`group relative overflow-hidden rounded-2xl text-left aspect-[3/4] sm:aspect-[4/5] shadow-xs transition-all duration-300 transform active:scale-95 focus:outline-none cursor-pointer border ${
                   isSelected
-                    ? 'ring-3 ring-[#C59A45] ring-offset-2 ring-offset-[#FAF7F2]'
-                    : 'hover:-translate-y-1 hover:shadow-md'
+                    ? 'border-[#C5A880] ring-2 ring-[#C5A880] shadow-md'
+                    : 'border-[#E9E5DD] hover:border-[#C5A880]/60 hover:shadow-md'
                 }`}
               >
-                {/* Background: Verified photo or Luxury Editorial Canvas */}
-                {cat.image ? (
-                  <>
-                    <img
-                      src={cat.image}
-                      alt={cat.name}
-                      className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700"
-                      loading="lazy"
-                    />
-                    {/* Dark Editorial Gradient Overlay */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#24060C] via-[#24060C]/40 to-transparent group-hover:via-[#24060C]/60 transition-colors" />
-                  </>
-                ) : (
-                  <div className="w-full h-full bg-gradient-to-br from-[#350C15] via-[#4A0E17] to-[#1F0409] p-4 flex flex-col justify-between relative overflow-hidden">
-                    {/* Subtle gold decorative ring */}
-                    <div className="absolute -top-6 -right-6 w-28 h-28 rounded-full border border-[#D4AF37]/20 pointer-events-none" />
-                    <div className="absolute top-10 right-4 w-12 h-12 rounded-full border border-[#D4AF37]/10 pointer-events-none" />
+                {/* Background Editorial Placeholder Image */}
+                <img
+                  src={cat.image}
+                  alt={cat.name}
+                  className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700"
+                  loading="lazy"
+                />
 
-                    {/* Category Motif Icon */}
-                    <div className="w-9 h-9 rounded-full bg-white/10 border border-[#D4AF37]/30 flex items-center justify-center text-[#D4AF37]">
-                      <Feather className="w-4 h-4 text-[#D4AF37]" />
-                    </div>
+                {/* Deep Navy Gradient Overlay */}
+                <div className="absolute inset-0 bg-gradient-to-t from-[#0A1628]/95 via-[#0C182B]/40 to-transparent group-hover:via-[#0C182B]/60 transition-colors" />
 
-                    <div className="relative z-10" />
-                  </div>
-                )}
-
-                {/* Badge if selected */}
+                {/* Selected Pill */}
                 {isSelected && (
-                  <div className="absolute top-2.5 right-2.5 bg-[#C59A45] text-[#24060C] text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider shadow z-10">
-                    Viewing
+                  <div className="absolute top-3 right-3 bg-[#C5A880] text-[#0C182B] text-[10px] font-bold px-2.5 py-0.5 rounded-full uppercase tracking-wider shadow-sm z-10">
+                    Selected
                   </div>
                 )}
 
-                {/* Content at Bottom */}
-                <div className="absolute bottom-0 inset-x-0 p-3 sm:p-4 text-white z-10">
-                  <div className="text-[10px] sm:text-xs font-semibold tracking-wider text-[#D4AF37] uppercase">
+                {/* Content at bottom of card */}
+                <div className="absolute bottom-0 inset-x-0 p-4 sm:p-5 text-[#FAF9F6] z-10">
+                  <div className="text-[10px] tracking-[0.2em] font-medium text-[#C5A880] uppercase">
                     {count} {count === 1 ? 'Design' : 'Designs'}
                   </div>
-                  <h3 className="font-serif text-base sm:text-lg lg:text-xl font-medium tracking-wide mt-0.5 text-[#FAF7F2]">
+                  <h3 className="font-serif text-lg sm:text-xl font-normal tracking-wide text-[#FAF9F6] mt-0.5">
                     {cat.name}
                   </h3>
-                  <p className="text-[11px] sm:text-xs text-[#E8DFC8]/90 line-clamp-1 mt-0.5 font-light hidden sm:block">
+                  <p className="text-xs text-[#D8DFE9] line-clamp-2 mt-1 font-light hidden sm:block">
                     {cat.tagline}
                   </p>
 
-                  <div className="mt-2.5 flex items-center text-[10px] sm:text-xs font-medium text-[#FAF7F2] gap-1 group-hover:text-[#D4AF37] transition-colors">
-                    <span>Explore</span>
-                    <ArrowRight className="w-3 h-3 group-hover:translate-x-1 transition-transform" />
+                  <div className="mt-3 flex items-center text-xs font-medium text-[#FAF9F6] gap-1.5 group-hover:text-[#C5A880] transition-colors">
+                    <span className="tracking-wider uppercase text-[11px]">
+                      {isSelected ? 'View Filtered' : 'Explore Category'}
+                    </span>
+                    <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform text-[#C5A880]" />
                   </div>
                 </div>
               </button>
             );
           })}
-        </motion.div>
+        </div>
+
+        {/* Reset Filter Button if active */}
+        {selectedCategory !== 'All' && (
+          <div className="mt-8 text-center">
+            <button
+              onClick={() => onSelectCategory('All')}
+              className="inline-flex items-center gap-2 px-5 py-2 rounded-full border border-[#0C182B] text-xs font-semibold uppercase tracking-wider text-[#0C182B] hover:bg-[#0C182B] hover:text-[#FAF9F6] transition-colors cursor-pointer"
+            >
+              <span>Showing: {selectedCategory}</span>
+              <span className="text-[#C5A880] font-bold">✕ Show All</span>
+            </button>
+          </div>
+        )}
       </div>
     </section>
   );

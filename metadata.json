@@ -1,6 +1,6 @@
 {
-  "name": "AAROHI - Festival Digital Catalog",
-  "description": "Mobile-first digital fashion showroom and WhatsApp conversion catalog for Indian ethnic-wear retailers.",
+  "name": "AZORIA - Designer Women's Wear",
+  "description": "Premium mobile-first digital fashion catalogue concept for AZORIA. Explore designer, festive, and occasion wear with seamless WhatsApp enquiry.",
   "requestFramePermissions": [],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }

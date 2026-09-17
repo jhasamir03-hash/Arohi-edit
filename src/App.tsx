@@ -5,20 +5,17 @@ import { CategoryType, Product } from './types';
 import { Header } from './components/Header';
 import { Hero } from './components/Hero';
 import { CategoryShowcase } from './components/CategoryShowcase';
-import { FeaturedShowcase } from './components/FeaturedShowcase';
 import { ProductGrid } from './components/ProductGrid';
-import { ProductDetailModal } from './components/ProductDetailModal';
-import { EditorialStory } from './components/EditorialStory';
+import { WhyThisCatalogue } from './components/WhyThisCatalogue';
 import { FeedbackSection } from './components/FeedbackSection';
 import { WhatsAppFinalCta } from './components/WhatsAppFinalCta';
-import { FloatingWhatsApp } from './components/FloatingWhatsApp';
-import { ShareCatalogModal } from './components/ShareCatalogModal';
 import { Footer } from './components/Footer';
+import { ProductDetailModal } from './components/ProductDetailModal';
+import { FloatingWhatsApp } from './components/FloatingWhatsApp';
 
 export default function App() {
   const [selectedCategory, setSelectedCategory] = useState<CategoryType | 'All'>('All');
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
-  const [isShareModalOpen, setIsShareModalOpen] = useState(false);
 
   // Sync with URL query or hash on mount to support direct product/category deep-links
   useEffect(() => {
@@ -58,15 +55,15 @@ export default function App() {
 
   const handleSelectCategory = (category: CategoryType | 'All') => {
     setSelectedCategory(category);
-    // Smooth scroll to the collection grid
-    const element = document.getElementById('collection-grid');
+    // Smooth scroll to the featured edit section
+    const element = document.getElementById('featured-edit-section');
     if (element) {
       element.scrollIntoView({ behavior: 'smooth' });
     }
   };
 
   const handleExploreClick = () => {
-    const element = document.getElementById('collection-grid');
+    const element = document.getElementById('featured-edit-section');
     if (element) {
       element.scrollIntoView({ behavior: 'smooth' });
     }
@@ -77,36 +74,42 @@ export default function App() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
+  const handleNavigateCollections = () => {
+    const element = document.getElementById('featured-edit-section');
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
+  const handleNavigateCategories = () => {
+    const element = document.getElementById('categories-section');
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   return (
-    <div className="min-h-screen bg-[#FAF7F2] text-[#241A1C] flex flex-col selection:bg-[#B3394B] selection:text-white font-sans">
-      {/* Top Header */}
+    <div className="min-h-screen bg-[#FAF9F6] text-[#0C182B] flex flex-col selection:bg-[#0C182B] selection:text-[#FAF9F6] font-sans antialiased">
+      {/* Top Header: AZORIA with Home, Collections, Categories and WhatsApp Enquire */}
       <Header
-        selectedCategory={selectedCategory}
-        onSelectCategory={handleSelectCategory}
-        onOpenShareModal={() => setIsShareModalOpen(true)}
         onNavigateHome={handleNavigateHome}
+        onNavigateCollections={handleNavigateCollections}
+        onNavigateCategories={handleNavigateCategories}
       />
 
-      {/* Main Page Flow */}
+      {/* Main Flow */}
       <main className="flex-1">
-        {/* Hero Section with WhatsApp and Explore CTAs */}
+        {/* Editorial Fashion Hero Section */}
         <Hero onExploreClick={handleExploreClick} />
 
-        {/* Featured Handpicked Highlights / Bestsellers / New Arrivals */}
-        <FeaturedShowcase
-          products={PRODUCTS}
-          onOpenDetail={handleOpenProductDetail}
-          onExploreAll={handleExploreClick}
-        />
-
-        {/* Visual Category Showcase (Sarees, Kurtis, Suits, Festive Picks, Kids Ethnic Wear) */}
+        {/* Shop by Category: Festive Wear, Designer Wear, Occasion Wear, New Arrivals */}
         <CategoryShowcase
           products={PRODUCTS}
           selectedCategory={selectedCategory}
           onSelectCategory={handleSelectCategory}
         />
 
-        {/* Full Collection Showroom with Category Tabs, Search & Filters */}
+        {/* Featured Collection: "Featured Edit", 2-column mobile grid, Sample products */}
         <ProductGrid
           products={PRODUCTS}
           selectedCategory={selectedCategory}
@@ -114,34 +117,28 @@ export default function App() {
           onOpenDetail={handleOpenProductDetail}
         />
 
-        {/* Editorial Story / Brand Breathing Moment */}
-        <EditorialStory />
+        {/* Customer-Facing Concept Value: "Your Collection, Beautifully Presented" */}
+        <WhyThisCatalogue />
 
-        {/* Dedicated Patron Feedback & Reviews Section */}
+        {/* Dedicated Feedback & Ratings Section (Demo) */}
         <FeedbackSection />
 
-        {/* Closing WhatsApp Concierge Section with Quick Question Cards */}
+        {/* Final WhatsApp Call to Action: "Explore the AZORIA Collection" */}
         <WhatsAppFinalCta />
       </main>
 
-      {/* Footer with Boutique Stores & Info */}
+      {/* Minimal Footer */}
       <Footer onSelectCategory={handleSelectCategory} />
 
-      {/* Persistent Floating WhatsApp Button */}
+      {/* Persistent Floating WhatsApp Consultation Button */}
       <FloatingWhatsApp />
 
-      {/* Product Detail Modal */}
+      {/* Polished Product Detail Modal */}
       <ProductDetailModal
         product={selectedProduct}
         onClose={handleCloseProductDetail}
         onSelectProduct={handleOpenProductDetail}
         allProducts={PRODUCTS}
-      />
-
-      {/* Share / QR Code Modal for store owners and customers */}
-      <ShareCatalogModal
-        isOpen={isShareModalOpen}
-        onClose={() => setIsShareModalOpen(false)}
       />
     </div>
   );

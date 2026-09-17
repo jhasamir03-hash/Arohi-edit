@@ -1,9 +1,8 @@
 import React, { useState, useMemo } from 'react';
-import { motion } from 'motion/react';
 import { Product, CategoryType } from '../types';
-import { STORE_CONFIG } from '../config';
+import { CATEGORIES_DATA } from '../config';
 import { ProductCard } from './ProductCard';
-import { Search, SlidersHorizontal, X, Sparkles } from 'lucide-react';
+import { Search, X } from 'lucide-react';
 
 interface ProductGridProps {
   products: Product[];
@@ -12,9 +11,6 @@ interface ProductGridProps {
   onOpenDetail: (product: Product) => void;
 }
 
-type BadgeFilter = 'All' | 'New' | 'Bestseller' | 'Festive Pick';
-type PriceFilter = 'All' | 'under-3000' | '3000-8000' | 'above-8000';
-
 export const ProductGrid: React.FC<ProductGridProps> = ({
   products,
   selectedCategory,
@@ -22,30 +18,12 @@ export const ProductGrid: React.FC<ProductGridProps> = ({
   onOpenDetail,
 }) => {
   const [searchQuery, setSearchQuery] = useState('');
-  const [selectedBadge, setSelectedBadge] = useState<BadgeFilter>('All');
-  const [selectedPrice, setSelectedPrice] = useState<PriceFilter>('All');
 
-  // Filtered products calculation
+  // Filter products by category and search
   const filteredProducts = useMemo(() => {
     return products.filter((item) => {
       // Category match
       if (selectedCategory !== 'All' && item.category !== selectedCategory) {
-        return false;
-      }
-
-      // Badge curation match
-      if (selectedBadge !== 'All' && item.badge !== selectedBadge) {
-        return false;
-      }
-
-      // Price range match
-      if (selectedPrice === 'under-3000' && item.price >= 3000) {
-        return false;
-      }
-      if (selectedPrice === '3000-8000' && (item.price < 3000 || item.price > 8000)) {
-        return false;
-      }
-      if (selectedPrice === 'above-8000' && item.price <= 8000) {
         return false;
       }
 
@@ -54,63 +32,52 @@ export const ProductGrid: React.FC<ProductGridProps> = ({
         const query = searchQuery.toLowerCase();
         const matchesName = item.name.toLowerCase().includes(query);
         const matchesFabric = item.fabric.toLowerCase().includes(query);
-        const matchesColors = item.colors.some((c) => c.toLowerCase().includes(query));
+        const matchesCategory = item.category.toLowerCase().includes(query);
         const matchesDesc = item.description.toLowerCase().includes(query);
-        if (!matchesName && !matchesFabric && !matchesColors && !matchesDesc) {
+        if (!matchesName && !matchesFabric && !matchesCategory && !matchesDesc) {
           return false;
         }
       }
 
       return true;
     });
-  }, [products, selectedCategory, selectedBadge, selectedPrice, searchQuery]);
-
-  const hasActiveFilters =
-    selectedCategory !== 'All' ||
-    selectedBadge !== 'All' ||
-    selectedPrice !== 'All' ||
-    searchQuery.trim() !== '';
-
-  const handleResetFilters = () => {
-    onSelectCategory('All');
-    setSelectedBadge('All');
-    setSelectedPrice('All');
-    setSearchQuery('');
-  };
+  }, [products, selectedCategory, searchQuery]);
 
   return (
-    <section id="collection-grid" className="py-12 sm:py-16 bg-[#FAF7F2]">
+    <section id="featured-edit-section" className="py-14 sm:py-20 bg-[#FAF9F6]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Section Header & Headline */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-4 border-b border-[#E8DFC8] pb-6">
+        {/* Section Header */}
+        <div className="flex flex-col md:flex-row md:items-end justify-between mb-8 sm:mb-12 gap-5 border-b border-[#E9E5DD] pb-6 sm:pb-8">
           <div>
-            <div className="inline-flex items-center gap-1.5 text-xs font-semibold tracking-[0.25em] text-[#C59A45] uppercase mb-1.5">
-              <Sparkles className="w-3.5 h-3.5" />
-              <span>Full Showroom Showcase</span>
+            <div className="text-[10px] sm:text-xs font-semibold tracking-[0.25em] text-[#C5A880] uppercase mb-1.5">
+              The Seasonal Selection
             </div>
-            <h2 className="font-serif text-3xl sm:text-4xl text-[#350C15] font-normal tracking-tight">
-              {selectedCategory === 'All' ? 'The Complete Festive Edit' : selectedCategory}
+            <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl text-[#0C182B] font-normal tracking-tight">
+              Featured Edit
             </h2>
-            <p className="text-xs sm:text-sm text-[#8C7A6B] mt-1 font-normal">
-              Showing {filteredProducts.length} handcrafted {filteredProducts.length === 1 ? 'piece' : 'pieces'} ready for immediate WhatsApp reservation
+            <p className="text-xs sm:text-sm text-[#5A687D] mt-2 font-normal">
+              {selectedCategory === 'All'
+                ? `Showing ${filteredProducts.length} sample silhouettes across all categories`
+                : `Showing ${filteredProducts.length} sample silhouettes in ${selectedCategory}`}
             </p>
           </div>
 
-          {/* Simple Clean Search Bar */}
-          <div className="w-full md:w-72 relative">
-            <Search className="w-4 h-4 text-[#8C7A6B] absolute left-3.5 top-1/2 -translate-y-1/2" />
+          {/* Search Box */}
+          <div className="w-full md:w-80 relative">
+            <Search className="w-4 h-4 text-[#7A889B] absolute left-3.5 top-1/2 -translate-y-1/2" />
             <input
               type="text"
               id="product-search-input"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Search saree, kurti, silk..."
-              className="w-full pl-9 pr-8 py-2.5 bg-white border border-[#E8DFC8] rounded-full text-xs sm:text-sm text-[#241A1C] placeholder-[#8C7A6B] focus:outline-none focus:border-[#C59A45] focus:ring-1 focus:ring-[#C59A45] shadow-xs"
+              placeholder="Search silk, drape, cape, velvet..."
+              className="w-full pl-9 pr-8 py-2.5 bg-white border border-[#E9E5DD] rounded-full text-xs sm:text-sm text-[#0C182B] placeholder-[#8B9BB4] focus:outline-none focus:border-[#0C182B] focus:ring-1 focus:ring-[#0C182B] shadow-2xs"
             />
             {searchQuery && (
               <button
                 onClick={() => setSearchQuery('')}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-[#8C7A6B] hover:text-[#241A1C]"
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-[#7A889B] hover:text-[#0C182B] p-1"
+                aria-label="Clear search"
               >
                 <X className="w-3.5 h-3.5" />
               </button>
@@ -118,106 +85,42 @@ export const ProductGrid: React.FC<ProductGridProps> = ({
           </div>
         </div>
 
-        {/* Filter Bar */}
-        <div className="space-y-4 mb-8">
-          {/* Main Category Tabs (Horizontal Scroll on Mobile) */}
-          <div className="flex items-center gap-2 overflow-x-auto no-scrollbar pb-1">
-            <button
-              onClick={() => onSelectCategory('All')}
-              className={`px-4 py-2 rounded-full text-xs font-semibold tracking-wider uppercase whitespace-nowrap active:scale-95 transition-all duration-150 cursor-pointer ${
-                selectedCategory === 'All'
-                  ? 'bg-[#4A0E17] text-[#FAF7F2] shadow-sm'
-                  : 'bg-white text-[#4A0E17] border border-[#E8DFC8] hover:bg-[#EFE7DC]'
-              }`}
-            >
-              All Categories ({products.length})
-            </button>
-            {STORE_CONFIG.categories.map((cat) => {
-              const count = products.filter((p) => p.category === cat.id).length;
-              return (
-                <button
-                  key={cat.id}
-                  onClick={() => onSelectCategory(cat.id)}
-                  className={`px-4 py-2 rounded-full text-xs font-semibold tracking-wider uppercase whitespace-nowrap active:scale-95 transition-all duration-150 cursor-pointer ${
-                    selectedCategory === cat.id
-                      ? 'bg-[#4A0E17] text-[#FAF7F2] shadow-sm'
-                      : 'bg-white text-[#4A0E17] border border-[#E8DFC8] hover:bg-[#EFE7DC]'
-                  }`}
-                >
-                  {cat.name} ({count})
-                </button>
-              );
-            })}
-          </div>
+        {/* Category Navigation Pills */}
+        <div className="flex items-center gap-2 overflow-x-auto no-scrollbar pb-3 mb-8">
+          <button
+            onClick={() => onSelectCategory('All')}
+            className={`px-4 py-2 rounded-full text-xs font-medium tracking-[0.12em] uppercase whitespace-nowrap active:scale-95 transition-all duration-150 cursor-pointer ${
+              selectedCategory === 'All'
+                ? 'bg-[#0C182B] text-[#FAF9F6] shadow-xs'
+                : 'bg-white text-[#3A475A] border border-[#E9E5DD] hover:border-[#0C182B]'
+            }`}
+          >
+            All Edits ({products.length})
+          </button>
 
-          {/* Secondary Sub-filters: Curations & Price */}
-          <div className="flex flex-wrap items-center justify-between gap-3 pt-2">
-            {/* Curation Badges */}
-            <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar">
-              <span className="text-[11px] font-semibold text-[#8C7A6B] uppercase tracking-wider mr-1 hidden sm:inline">
-                Curations:
-              </span>
-              {(['All', 'New', 'Bestseller', 'Festive Pick'] as BadgeFilter[]).map((badge) => (
-                <button
-                  key={badge}
-                  onClick={() => setSelectedBadge(badge)}
-                  className={`px-3 py-1 rounded-full text-xs font-medium active:scale-95 transition-all duration-150 whitespace-nowrap cursor-pointer ${
-                    selectedBadge === badge
-                      ? 'bg-[#C59A45] text-[#24060C] font-semibold'
-                      : 'bg-[#EFE7DC]/50 text-[#6E5D53] hover:bg-[#EFE7DC]'
-                  }`}
-                >
-                  {badge === 'All' ? 'All Tags' : badge}
-                </button>
-              ))}
-            </div>
+          {CATEGORIES_DATA.map((cat) => {
+            const count = products.filter((p) => p.category === cat.id).length;
+            const isSelected = selectedCategory === cat.id;
 
-            {/* Price Filter Pills */}
-            <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar">
-              <span className="text-[11px] font-semibold text-[#8C7A6B] uppercase tracking-wider mr-1 hidden sm:inline">
-                Price:
-              </span>
-              {[
-                { id: 'All', label: 'All' },
-                { id: 'under-3000', label: '< ₹3,000' },
-                { id: '3000-8000', label: '₹3K – ₹8K' },
-                { id: 'above-8000', label: '> ₹8,000' },
-              ].map((p) => (
-                <button
-                  key={p.id}
-                  onClick={() => setSelectedPrice(p.id as PriceFilter)}
-                  className={`px-3 py-1 rounded-full text-xs font-medium active:scale-95 transition-all duration-150 whitespace-nowrap cursor-pointer ${
-                    selectedPrice === p.id
-                      ? 'bg-[#1B4332] text-white font-semibold'
-                      : 'bg-[#EFE7DC]/50 text-[#6E5D53] hover:bg-[#EFE7DC]'
-                  }`}
-                >
-                  {p.label}
-                </button>
-              ))}
-
-              {hasActiveFilters && (
-                <button
-                  onClick={handleResetFilters}
-                  className="px-2.5 py-1 text-xs text-[#5A121F] font-semibold hover:underline active:scale-95 transition-all duration-150 flex items-center gap-1 ml-1 cursor-pointer"
-                >
-                  <X className="w-3 h-3" />
-                  Reset
-                </button>
-              )}
-            </div>
-          </div>
+            return (
+              <button
+                key={cat.id}
+                onClick={() => onSelectCategory(cat.id)}
+                className={`px-4 py-2 rounded-full text-xs font-medium tracking-[0.12em] uppercase whitespace-nowrap active:scale-95 transition-all duration-150 cursor-pointer ${
+                  isSelected
+                    ? 'bg-[#0C182B] text-[#FAF9F6] shadow-xs'
+                    : 'bg-white text-[#3A475A] border border-[#E9E5DD] hover:border-[#0C182B]'
+                }`}
+              >
+                {cat.name} ({count})
+              </button>
+            );
+          })}
         </div>
 
-        {/* Product Cards Grid with Subtle Viewport Entrance */}
+        {/* Mobile-First 2-Column Product Grid */}
         {filteredProducts.length > 0 ? (
-          <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: '-40px' }}
-            transition={{ duration: 0.5, ease: 'easeOut' }}
-            className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-6"
-          >
+          <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3.5 sm:gap-6">
             {filteredProducts.map((product) => (
               <ProductCard
                 key={product.id}
@@ -225,27 +128,37 @@ export const ProductGrid: React.FC<ProductGridProps> = ({
                 onOpenDetail={onOpenDetail}
               />
             ))}
-          </motion.div>
+          </div>
         ) : (
-          /* Empty Search / Filter State */
-          <div className="bg-white rounded-2xl border border-[#E8DFC8] p-12 text-center max-w-md mx-auto my-8 shadow-xs">
-            <div className="w-12 h-12 rounded-full bg-[#EFE7DC] flex items-center justify-center mx-auto mb-4 text-[#5A121F]">
-              <Search className="w-6 h-6" />
+          /* Empty Search State */
+          <div className="bg-white rounded-2xl border border-[#E9E5DD] p-10 sm:p-14 text-center max-w-md mx-auto my-8 shadow-xs">
+            <div className="w-12 h-12 rounded-full bg-[#F4F1EA] flex items-center justify-center mx-auto mb-4 text-[#0C182B]">
+              <Search className="w-5 h-5" />
             </div>
-            <h3 className="font-serif text-xl font-medium text-[#241A1C] mb-1">
-              No matching pieces found
+            <h3 className="font-serif text-xl font-normal text-[#0C182B] mb-1">
+              No matching silhouettes found
             </h3>
-            <p className="text-xs sm:text-sm text-[#8C7A6B] mb-5">
-              Try adjusting your search or resetting category and price filters.
+            <p className="text-xs text-[#5A687D] mb-6">
+              Try a different keyword or view the complete seasonal edit.
             </p>
             <button
-              onClick={handleResetFilters}
-              className="px-5 py-2.5 rounded-full bg-[#4A0E17] text-white text-xs font-semibold uppercase tracking-wider hover:bg-[#350C15] active:scale-95 transition-all duration-150 cursor-pointer"
+              onClick={() => {
+                onSelectCategory('All');
+                setSearchQuery('');
+              }}
+              className="px-6 py-2.5 rounded-full bg-[#0C182B] text-[#FAF9F6] text-xs font-semibold tracking-wider uppercase hover:bg-[#16253D] transition-colors cursor-pointer"
             >
-              Show All {products.length} Pieces
+              Reset Filters
             </button>
           </div>
         )}
+
+        {/* Subtle Sample Guidance Footer */}
+        <div className="mt-12 text-center">
+          <p className="text-[11px] text-[#7A889B] tracking-wider uppercase font-medium">
+            Sample products and specifications shown for digital catalogue demonstration
+          </p>
+        </div>
       </div>
     </section>
   );

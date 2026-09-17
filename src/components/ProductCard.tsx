@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Product } from '../types';
-import { Clock, ArrowUpRight, Star } from 'lucide-react';
-import { ProductImagePlaceholder } from './ProductImagePlaceholder';
+import { buildProductWhatsAppLink } from '../config';
+import { ArrowUpRight, MessageCircle } from 'lucide-react';
 
 interface ProductCardProps {
   product: Product;
@@ -9,136 +9,94 @@ interface ProductCardProps {
 }
 
 export const ProductCard: React.FC<ProductCardProps> = ({ product, onOpenDetail }) => {
-  const [imageError, setImageError] = useState(false);
-  const isLimited = product.availability === 'Limited Stock';
-  const hasValidImage = product.hasVerifiedImage && product.images && product.images.length > 0 && !imageError;
+  const [imageLoaded, setImageLoaded] = useState(false);
 
-  // Badge styling
-  const getBadgeStyle = (badge?: string) => {
-    switch (badge) {
-      case 'Bestseller':
-        return 'bg-[#C59A45] text-[#24060C] font-semibold';
-      case 'New':
-        return 'bg-[#1B4332] text-[#FAF7F2] font-semibold';
-      case 'Festive Pick':
-        return 'bg-[#5A121F] text-[#FAF7F2] font-semibold';
-      default:
-        return 'bg-[#350C15] text-[#FAF7F2] font-semibold';
-    }
+  const handleEnquireClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    window.open(buildProductWhatsAppLink(product.name), '_blank', 'noopener,noreferrer');
   };
-
-  const displayRating = product.rating ? product.rating.toFixed(1) : '4.9';
-  const displayReviewCount = product.reviewCount || (product.reviews ? product.reviews.length : 15);
 
   return (
     <div
       onClick={() => onOpenDetail(product)}
-      className="group relative bg-[#FFFFFF] rounded-2xl border border-[#E8DFC8]/70 overflow-hidden shadow-xs hover:shadow-lg transition-all duration-200 flex flex-col cursor-pointer transform hover:-translate-y-1 active:scale-[0.98] select-none"
+      className="group relative bg-white rounded-2xl border border-[#E9E5DD] hover:border-[#C5A880]/70 overflow-hidden shadow-xs hover:shadow-md transition-all duration-300 flex flex-col cursor-pointer transform hover:-translate-y-0.5 active:scale-[0.99] select-none"
     >
       {/* Product Image Box (4:5 portrait aspect ratio) */}
-      <div className="relative aspect-[4/5] w-full overflow-hidden bg-[#FAF7F2]">
-        {hasValidImage ? (
-          <img
-            src={product.images[0]}
-            alt={product.name}
-            onError={() => setImageError(true)}
-            className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500 ease-out"
-            loading="lazy"
-          />
-        ) : (
-          <ProductImagePlaceholder
-            category={product.category}
-            productName={product.name}
-            fabric={product.fabric}
-            variant="card"
-          />
-        )}
+      <div className="relative aspect-[4/5] w-full overflow-hidden bg-[#F4F1EA]">
+        <img
+          src={product.images[0]}
+          alt={product.name}
+          onLoad={() => setImageLoaded(true)}
+          className={`w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700 ease-out ${
+            imageLoaded ? 'opacity-100' : 'opacity-0'
+          }`}
+          loading="lazy"
+        />
 
-        {/* Top Badges */}
-        <div className="absolute top-2.5 left-2.5 right-2.5 flex items-center justify-between gap-1.5 pointer-events-none z-20">
-          {product.badge ? (
-            <span
-              className={`px-2.5 py-0.5 rounded-full text-[10px] tracking-wider uppercase shadow-xs ${getBadgeStyle(
-                product.badge
-              )}`}
-            >
-              {product.badge}
-            </span>
-          ) : (
-            <span />
-          )}
-
-          {isLimited && (
-            <span className="px-2 py-0.5 rounded-full text-[10px] font-semibold tracking-wide bg-[#FDF2E9] text-[#B7410E] border border-[#FADBD8] flex items-center gap-1 shadow-xs">
-              <Clock className="w-3 h-3 text-[#B7410E]" />
-              <span>Limited Stock</span>
-            </span>
-          )}
+        {/* Top Badges: Category & Sample Product Indicator */}
+        <div className="absolute top-2.5 left-2.5 right-2.5 flex items-center justify-between gap-1 z-10 pointer-events-none">
+          <span className="px-2 py-0.5 rounded-full text-[9px] sm:text-[10px] font-semibold tracking-wider uppercase bg-[#0C182B]/85 text-[#FAF9F6] backdrop-blur-xs">
+            {product.category}
+          </span>
+          <span className="px-2 py-0.5 rounded-full text-[9px] sm:text-[10px] font-medium tracking-wider uppercase bg-[#FAF9F6]/90 text-[#3A475A] border border-[#E9E5DD] backdrop-blur-xs">
+            Sample
+          </span>
         </div>
 
-        {/* Clean "View Details" Hover Callout on Desktop */}
-        <div className="absolute inset-x-3 bottom-3 hidden sm:flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none z-20">
-          <span className="bg-[#FAF7F2]/95 backdrop-blur-sm text-[#350C15] text-xs font-semibold px-4 py-1.5 rounded-full shadow-md border border-[#E8DFC8] flex items-center gap-1.5 transform translate-y-1 group-hover:translate-y-0 transition-transform">
-            <span>View Details & Reviews</span>
-            <ArrowUpRight className="w-3.5 h-3.5 text-[#C59A45]" />
+        {/* Hover Quick Action on desktop */}
+        <div className="absolute inset-x-3 bottom-3 hidden sm:flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none z-10">
+          <span className="bg-[#FAF9F6]/95 backdrop-blur-xs text-[#0C182B] text-xs font-semibold px-3.5 py-1.5 rounded-full shadow-md border border-[#E9E5DD] flex items-center gap-1.5 transform translate-y-1 group-hover:translate-y-0 transition-transform">
+            <span>View Details</span>
+            <ArrowUpRight className="w-3.5 h-3.5 text-[#C5A880]" />
           </span>
         </div>
       </div>
 
       {/* Card Information */}
-      <div className="p-3.5 sm:p-4 flex-1 flex flex-col justify-between">
+      <div className="p-3 sm:p-4.5 flex-1 flex flex-col justify-between">
         <div>
-          {/* Category, Fabric & Star Rating */}
-          <div className="flex items-center justify-between text-[11px] text-[#8C7A6B] uppercase tracking-wider mb-1.5 font-medium">
-            <span className="text-[#350C15]/80 font-semibold">{product.category}</span>
-            <div className="flex items-center gap-1 text-[11px] font-semibold text-[#350C15] normal-case bg-[#FAF7F2] px-1.5 py-0.5 rounded-md border border-[#E8DFC8]/60">
-              <Star className="w-3 h-3 fill-[#C59A45] text-[#C59A45]" />
-              <span>{displayRating}</span>
-              <span className="text-[#8C7A6B] font-normal text-[10px]">({displayReviewCount})</span>
-            </div>
+          {/* Fabric / Silhouette descriptor */}
+          <div className="text-[10px] sm:text-[11px] text-[#5A687D] truncate mb-1 font-medium">
+            {product.fabric}
           </div>
 
-          <p className="text-[11px] text-[#8C7A6B] truncate mb-1">{product.fabric}</p>
-
-          {/* Product Name - Responsive, NO unnecessary truncation */}
-          <h3 className="text-sm sm:text-base font-semibold text-[#241A1C] group-hover:text-[#5A121F] transition-colors leading-snug line-clamp-2 min-h-[2.5rem] sm:min-h-[2.75rem]">
+          {/* Product Name */}
+          <h3 className="font-serif text-sm sm:text-base font-normal text-[#0C182B] group-hover:text-[#16253D] transition-colors leading-snug line-clamp-2 min-h-[2.4rem] sm:min-h-[2.75rem]">
             {product.name}
           </h3>
         </div>
 
-        {/* Price & Clean Information Row */}
-        <div className="mt-3 pt-2.5 border-t border-[#F2EDE4] flex items-end justify-between gap-2">
-          {/* Rupee & Total Price */}
-          <div className="flex flex-col">
-            <div className="flex items-baseline gap-1">
-              <span className="font-bold text-base text-[#C59A45] leading-none">
-                ₹
-              </span>
-              <span className="text-lg sm:text-xl font-bold tracking-tight text-[#350C15] leading-none">
-                {product.price.toLocaleString('en-IN')}
-              </span>
-            </div>
-            <span className="text-[10px] text-[#8C7A6B] mt-0.5">
-              {product.isDemoPrice ? 'Demo Est. Price' : 'Boutique Price'}
-            </span>
-          </div>
-
-          {/* Color Preview Swatches on Card */}
-          {product.colors && product.colors.length > 0 && (
-            <div className="flex items-center gap-1.5 pb-0.5">
-              {product.colors.map((colorName) => {
-                const hex = product.colorHexes?.[colorName] || '#D4AF37';
-                return (
-                  <span
-                    key={colorName}
-                    title={colorName}
-                    className="w-3 h-3 sm:w-3.5 sm:h-3.5 rounded-full border border-black/15 shadow-2xs transition-transform group-hover:scale-110"
-                    style={{ backgroundColor: hex }}
-                  />
-                );
-              })}
+        {/* Sample Reference / Actions Row */}
+        <div className="mt-3 pt-2.5 border-t border-[#F2EFE9] flex flex-col gap-2">
+          {product.samplePriceDisplay && (
+            <div className="text-[11px] text-[#7A889B] font-medium">
+              {product.samplePriceDisplay}
             </div>
           )}
+
+          {/* Action Buttons: View Details & Enquire */}
+          <div className="flex items-center gap-1.5 pt-1">
+            <button
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation();
+                onOpenDetail(product);
+              }}
+              className="flex-1 py-1.5 px-2 rounded-lg bg-[#FAF9F6] hover:bg-[#EAE6DE] text-[#0C182B] text-[11px] font-semibold tracking-wider uppercase border border-[#E9E5DD] transition-colors flex items-center justify-center gap-1"
+            >
+              <span>Details</span>
+            </button>
+
+            <button
+              type="button"
+              onClick={handleEnquireClick}
+              title="Enquire on WhatsApp"
+              className="py-1.5 px-2.5 rounded-lg bg-[#0C182B] hover:bg-[#16253D] text-[#FAF9F6] text-[11px] font-medium transition-colors flex items-center justify-center gap-1"
+            >
+              <MessageCircle className="w-3 h-3 text-[#25D366]" />
+              <span className="hidden xs:inline text-[10px] uppercase font-semibold">Enquire</span>
+            </button>
+          </div>
         </div>
       </div>
     </div>

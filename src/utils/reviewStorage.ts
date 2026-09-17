@@ -1,8 +1,8 @@
 import { ProductReview, BoutiqueFeedback } from '../types';
-import { BOUTIQUE_FEEDBACK } from '../data/feedback';
+import { SAMPLE_CATALOGUE_FEEDBACK } from '../data/feedback';
 
-const PRODUCT_REVIEWS_STORAGE_KEY = 'aarohi_product_reviews_v1';
-const BOUTIQUE_FEEDBACK_STORAGE_KEY = 'aarohi_boutique_feedback_v1';
+const PRODUCT_REVIEWS_STORAGE_KEY = 'azoria_product_reviews_v1';
+const CATALOGUE_FEEDBACK_STORAGE_KEY = 'azoria_catalogue_feedback_v1';
 
 /**
  * Get all reviews for a specific product, merging initial reviews with user-submitted reviews
@@ -74,31 +74,31 @@ export function calculateRatingStats(reviews: ProductReview[]): {
 }
 
 /**
- * Get all boutique general feedback
+ * Get all catalogue general feedback
  */
 export function getBoutiqueFeedback(): BoutiqueFeedback[] {
   try {
-    const raw = localStorage.getItem(BOUTIQUE_FEEDBACK_STORAGE_KEY);
-    if (!raw) return BOUTIQUE_FEEDBACK;
+    const raw = localStorage.getItem(CATALOGUE_FEEDBACK_STORAGE_KEY);
+    if (!raw) return SAMPLE_CATALOGUE_FEEDBACK;
     const custom: BoutiqueFeedback[] = JSON.parse(raw);
-    return [...custom, ...BOUTIQUE_FEEDBACK];
+    return [...custom, ...SAMPLE_CATALOGUE_FEEDBACK];
   } catch {
-    return BOUTIQUE_FEEDBACK;
+    return SAMPLE_CATALOGUE_FEEDBACK;
   }
 }
 
 /**
- * Save new boutique general feedback
+ * Save new catalogue general feedback
  */
 export function saveBoutiqueFeedback(feedback: BoutiqueFeedback): BoutiqueFeedback[] {
   try {
-    const raw = localStorage.getItem(BOUTIQUE_FEEDBACK_STORAGE_KEY);
+    const raw = localStorage.getItem(CATALOGUE_FEEDBACK_STORAGE_KEY);
     const custom: BoutiqueFeedback[] = raw ? JSON.parse(raw) : [];
     const updated = [feedback, ...custom];
-    localStorage.setItem(BOUTIQUE_FEEDBACK_STORAGE_KEY, JSON.stringify(updated));
-    return [...updated, ...BOUTIQUE_FEEDBACK];
+    localStorage.setItem(CATALOGUE_FEEDBACK_STORAGE_KEY, JSON.stringify(updated));
+    return [...updated, ...SAMPLE_CATALOGUE_FEEDBACK];
   } catch (e) {
-    console.error('Failed to save boutique feedback', e);
-    return [feedback, ...BOUTIQUE_FEEDBACK];
+    console.error('Failed to save catalogue feedback', e);
+    return [feedback, ...SAMPLE_CATALOGUE_FEEDBACK];
   }
 }

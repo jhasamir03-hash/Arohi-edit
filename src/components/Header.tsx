@@ -1,213 +1,137 @@
 import React, { useState } from 'react';
 import { STORE_CONFIG, buildWhatsAppLink } from '../config';
-import { MessageCircle, Sparkles, X, Menu, Star } from 'lucide-react';
-import { CategoryType } from '../types';
+import { MessageCircle, Menu, X } from 'lucide-react';
 
 interface HeaderProps {
-  onSelectCategory: (cat: CategoryType | 'All') => void;
-  selectedCategory: CategoryType | 'All';
-  onOpenShareModal: () => void;
   onNavigateHome: () => void;
+  onNavigateCollections: () => void;
+  onNavigateCategories: () => void;
 }
 
 export const Header: React.FC<HeaderProps> = ({
-  onSelectCategory,
-  selectedCategory,
   onNavigateHome,
+  onNavigateCollections,
+  onNavigateCategories,
 }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-  const handleScrollToFeedback = () => {
-    const el = document.getElementById('feedback-section');
-    if (el) {
-      el.scrollIntoView({ behavior: 'smooth' });
-    }
+  const handleNavClick = (callback: () => void) => {
+    callback();
+    setMobileMenuOpen(false);
   };
 
   return (
-    <header className="sticky top-0 z-40 bg-[#FAF7F2]/95 backdrop-blur-md border-b border-[#E8DFC8]/70 transition-all">
-      {/* Top Subtle Festive Ticker - Clean Navratri Edit without boutique text */}
-      <div className="bg-[#350C15] text-[#F3E5D0] px-4 py-1.5 text-[11px] text-center font-medium tracking-wider flex items-center justify-center gap-2">
-        <Sparkles className="w-3 h-3 text-[#D4AF37] animate-pulse" />
-        <span className="font-semibold text-[#D4AF37]">Shubh Navratri • Festive Collection 2026</span>
-        <span className="text-[#D4AF37]/50">•</span>
-        <span className="text-[#F3E5D0]/90">Exclusive Festive Weaves & Garba Attires</span>
-        <span className="hidden sm:inline text-[#D4AF37]/50">•</span>
-        <span className="hidden sm:inline text-[#F3E5D0]/90">Direct Boutique Inquiries on WhatsApp</span>
+    <header className="sticky top-0 z-40 bg-[#FAF9F6]/95 backdrop-blur-md border-b border-[#E9E5DD] transition-all">
+      {/* Top subtle editorial brand announcement banner */}
+      <div className="bg-[#0C182B] text-[#FAF9F6] px-4 py-1.5 text-[11px] font-medium tracking-[0.2em] uppercase text-center flex items-center justify-center gap-2">
+        <span className="text-[#C5A880]">AZORIA</span>
+        <span className="text-white/30">•</span>
+        <span className="text-[#FAF9F6]/90">The New Season Edit</span>
+        <span className="hidden sm:inline text-white/30">•</span>
+        <span className="hidden sm:inline text-[#FAF9F6]/80 text-[10px] tracking-[0.15em]">
+          Sample Digital Catalogue Concept
+        </span>
       </div>
 
-      {/* Main Navigation Bar - Sleek & Minimalist */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-14 sm:h-16">
-          {/* Mobile Menu Toggle Button */}
+        <div className="flex items-center justify-between h-16 sm:h-20">
+          {/* Mobile Menu Button */}
           <div className="flex items-center lg:hidden">
             <button
               id="mobile-nav-toggle-btn"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="p-1.5 -ml-1.5 text-[#350C15] hover:bg-[#EFE7DC]/60 active:scale-90 rounded-md transition-all duration-150 cursor-pointer"
-              aria-label="Toggle categories"
+              className="p-2 -ml-2 text-[#0C182B] hover:bg-[#F2EFE9] rounded-lg transition-colors cursor-pointer"
+              aria-label="Toggle navigation menu"
             >
               {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
             </button>
           </div>
 
-          {/* Minimalist Brand Logo */}
-          <div 
+          {/* Logo / Brand Name */}
+          <div
             onClick={onNavigateHome}
-            className="cursor-pointer flex items-baseline gap-2 group active:scale-95 transition-transform duration-150 select-none"
+            className="cursor-pointer flex flex-col items-center lg:items-start group select-none"
           >
-            <span className="font-serif text-xl sm:text-2xl font-bold tracking-[0.22em] text-[#350C15] group-hover:text-[#5A121F] transition-colors uppercase">
+            <span className="font-serif text-2xl sm:text-3xl font-semibold tracking-[0.28em] text-[#0C182B] group-hover:text-[#16253D] transition-colors uppercase pl-1">
               {STORE_CONFIG.brandName}
             </span>
-            <span className="hidden sm:inline-block text-[9px] tracking-[0.3em] text-[#C59A45] font-semibold uppercase">
+            <span className="text-[9px] tracking-[0.35em] text-[#C5A880] uppercase font-medium">
               {STORE_CONFIG.tagline}
             </span>
           </div>
 
-          {/* Desktop Minimalist Category Navigation */}
-          <nav className="hidden lg:flex items-center space-x-6 xl:space-x-8">
+          {/* Desktop Navigation */}
+          <nav className="hidden lg:flex items-center space-x-10">
             <button
-              onClick={() => onSelectCategory('All')}
-              className={`text-xs tracking-wider uppercase font-medium transition-all relative py-1 active:scale-95 duration-150 cursor-pointer ${
-                selectedCategory === 'All'
-                  ? 'text-[#350C15] font-semibold'
-                  : 'text-[#6E5D53] hover:text-[#350C15]'
-              }`}
+              onClick={onNavigateHome}
+              className="text-xs tracking-[0.18em] uppercase font-medium text-[#0C182B] hover:text-[#C5A880] transition-colors py-1 cursor-pointer"
             >
-              <span>All</span>
-              {selectedCategory === 'All' && (
-                <span className="absolute bottom-0 inset-x-0 h-0.5 bg-[#C59A45] rounded-full" />
-              )}
+              Home
             </button>
-
-            {STORE_CONFIG.categories.map((cat) => {
-              const isSelected = selectedCategory === cat.id;
-              return (
-                <button
-                  key={cat.id}
-                  onClick={() => onSelectCategory(cat.id)}
-                  className={`text-xs tracking-wider uppercase font-medium transition-all relative py-1 active:scale-95 duration-150 cursor-pointer ${
-                    isSelected
-                      ? 'text-[#350C15] font-semibold'
-                      : 'text-[#6E5D53] hover:text-[#350C15]'
-                  }`}
-                >
-                  <span>{cat.name}</span>
-                  {isSelected && (
-                    <span className="absolute bottom-0 inset-x-0 h-0.5 bg-[#C59A45] rounded-full" />
-                  )}
-                </button>
-              );
-            })}
-
-            {/* Direct Link to Patron Feedback & Reviews */}
             <button
-              onClick={handleScrollToFeedback}
-              className="text-xs tracking-wider uppercase font-medium text-[#6E5D53] hover:text-[#350C15] transition-all relative py-1 active:scale-95 duration-150 cursor-pointer flex items-center gap-1.5"
+              onClick={onNavigateCollections}
+              className="text-xs tracking-[0.18em] uppercase font-medium text-[#3A475A] hover:text-[#0C182B] transition-colors py-1 cursor-pointer"
             >
-              <Star className="w-3.5 h-3.5 text-[#C59A45] fill-[#C59A45]" />
-              <span>Reviews & Feedback</span>
+              Collections
+            </button>
+            <button
+              onClick={onNavigateCategories}
+              className="text-xs tracking-[0.18em] uppercase font-medium text-[#3A475A] hover:text-[#0C182B] transition-colors py-1 cursor-pointer"
+            >
+              Categories
             </button>
           </nav>
 
-          {/* Minimalist Right CTA: Direct WhatsApp Connect */}
-          <div className="flex items-center">
+          {/* Right Action: WhatsApp Icon / Button */}
+          <div className="flex items-center gap-3">
             <a
-              id="header-whatsapp-chat-btn"
-              href={buildWhatsAppLink(STORE_CONFIG.defaultWhatsappMessage)}
+              id="header-whatsapp-btn"
+              href={buildWhatsAppLink()}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#1B4332] hover:bg-[#143326] active:scale-95 text-[#FAF7F2] text-xs font-medium tracking-wide transition-all duration-150 shadow-xs cursor-pointer"
+              className="inline-flex items-center gap-2 px-3.5 sm:px-4 py-2 rounded-full bg-[#0C182B] hover:bg-[#16253D] text-[#FAF9F6] text-xs font-medium tracking-wider uppercase shadow-xs transition-all duration-150 active:scale-95 cursor-pointer border border-[#0C182B]"
             >
-              <MessageCircle className="w-3.5 h-3.5 text-[#55D688]" />
-              <span className="hidden sm:inline">WhatsApp</span>
+              <MessageCircle className="w-3.5 h-3.5 text-[#25D366]" />
+              <span className="hidden sm:inline">Enquire</span>
             </a>
           </div>
         </div>
       </div>
 
-      {/* Fast Horizontal Mobile Category Strip (Always 1-tap accessible on phone) */}
-      <div className="lg:hidden border-t border-[#E8DFC8]/60 bg-[#FAF7F2] px-3 py-2 overflow-x-auto no-scrollbar flex items-center gap-2">
-        <button
-          onClick={() => onSelectCategory('All')}
-          className={`px-3 py-1 rounded-full text-[11px] uppercase tracking-wider whitespace-nowrap transition-all duration-150 active:scale-95 cursor-pointer ${
-            selectedCategory === 'All'
-              ? 'bg-[#350C15] text-[#FAF7F2] font-semibold shadow-xs'
-              : 'bg-[#EFE7DC]/60 text-[#4A0E17]'
-          }`}
-        >
-          All
-        </button>
-        {STORE_CONFIG.categories.map((cat) => {
-          const isSelected = selectedCategory === cat.id;
-          return (
-            <button
-              key={cat.id}
-              onClick={() => onSelectCategory(cat.id)}
-              className={`px-3 py-1 rounded-full text-[11px] uppercase tracking-wider whitespace-nowrap transition-all duration-150 active:scale-95 cursor-pointer ${
-                isSelected
-                  ? 'bg-[#350C15] text-[#FAF7F2] font-semibold shadow-xs'
-                  : 'bg-[#EFE7DC]/60 text-[#4A0E17]'
-              }`}
-            >
-              {cat.name}
-            </button>
-          );
-        })}
-        <button
-          onClick={handleScrollToFeedback}
-          className="px-3 py-1 rounded-full text-[11px] uppercase tracking-wider whitespace-nowrap transition-all duration-150 active:scale-95 cursor-pointer bg-[#FAF7F2] border border-[#E8DFC8] text-[#350C15] font-medium flex items-center gap-1"
-        >
-          <Star className="w-3 h-3 text-[#C59A45] fill-[#C59A45]" />
-          <span>Reviews</span>
-        </button>
-      </div>
-
-      {/* Expanded Minimalist Drawer for full overview */}
+      {/* Mobile Drawer Menu */}
       {mobileMenuOpen && (
-        <div className="lg:hidden bg-[#FAF7F2] border-t border-[#E8DFC8] px-4 py-4 space-y-3 animate-in slide-in-from-top-2 duration-150">
-          <div className="text-[10px] font-semibold tracking-widest text-[#8C7A6B] uppercase">
-            Browse By Category
-          </div>
-          <div className="grid grid-cols-2 gap-2">
+        <div className="lg:hidden bg-[#FAF9F6] border-t border-[#E9E5DD] px-5 py-6 space-y-4 animate-in slide-in-from-top duration-200">
+          <nav className="flex flex-col space-y-3">
             <button
-              onClick={() => {
-                onSelectCategory('All');
-                setMobileMenuOpen(false);
-              }}
-              className={`text-left px-3 py-2 rounded-lg text-xs font-medium transition-all duration-150 active:scale-95 cursor-pointer ${
-                selectedCategory === 'All' ? 'bg-[#350C15] text-white shadow-xs' : 'bg-white border border-[#E8DFC8] text-[#350C15]'
-              }`}
+              onClick={() => handleNavClick(onNavigateHome)}
+              className="text-left text-sm tracking-[0.18em] uppercase font-semibold text-[#0C182B] py-2 border-b border-[#E9E5DD]/60"
             >
-              ✦ Complete Collection
+              Home
             </button>
-            {STORE_CONFIG.categories.map((cat) => (
-              <button
-                key={cat.id}
-                onClick={() => {
-                  onSelectCategory(cat.id);
-                  setMobileMenuOpen(false);
-                }}
-                className={`text-left px-3 py-2 rounded-lg text-xs font-medium transition-all duration-150 active:scale-95 cursor-pointer ${
-                  selectedCategory === cat.id ? 'bg-[#350C15] text-white shadow-xs' : 'bg-white border border-[#E8DFC8] text-[#350C15]'
-                }`}
-              >
-                {cat.name}
-              </button>
-            ))}
             <button
-              onClick={() => {
-                handleScrollToFeedback();
-                setMobileMenuOpen(false);
-              }}
-              className="col-span-2 text-left px-3 py-2.5 rounded-lg text-xs font-semibold transition-all duration-150 active:scale-95 cursor-pointer bg-white border border-[#C59A45]/40 text-[#350C15] flex items-center justify-between"
+              onClick={() => handleNavClick(onNavigateCollections)}
+              className="text-left text-sm tracking-[0.18em] uppercase font-medium text-[#3A475A] py-2 border-b border-[#E9E5DD]/60"
             >
-              <div className="flex items-center gap-1.5">
-                <Star className="w-3.5 h-3.5 text-[#C59A45] fill-[#C59A45]" />
-                <span>Patron Feedback & Reviews</span>
-              </div>
-              <span className="text-[10px] text-[#8C7A6B]">4.9 ★</span>
+              Collections
             </button>
+            <button
+              onClick={() => handleNavClick(onNavigateCategories)}
+              className="text-left text-sm tracking-[0.18em] uppercase font-medium text-[#3A475A] py-2 border-b border-[#E9E5DD]/60"
+            >
+              Categories
+            </button>
+          </nav>
+
+          <div className="pt-2">
+            <a
+              href={buildWhatsAppLink()}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-full flex items-center justify-center gap-2 py-3 rounded-xl bg-[#0C182B] text-[#FAF9F6] text-xs font-semibold tracking-wider uppercase shadow-sm"
+            >
+              <MessageCircle className="w-4 h-4 text-[#25D366]" />
+              <span>Enquire on WhatsApp</span>
+            </a>
           </div>
         </div>
       )}
