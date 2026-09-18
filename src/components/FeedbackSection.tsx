@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { BoutiqueFeedback } from '../types';
 import { getBoutiqueFeedback, saveBoutiqueFeedback } from '../utils/reviewStorage';
-import { buildWhatsAppLink } from '../config';
+import { buildWhatsAppLink, STORE_CONFIG } from '../config';
 import {
   Star,
   MessageSquarePlus,
@@ -59,7 +59,7 @@ export const FeedbackSection: React.FC = () => {
     }, 2400);
   };
 
-  const whatsappMessage = `Hi AZORIA, I would like to submit feedback on the collection:\nTopic: ${feedbackType}\nRating: ${rating}/5 Stars\nPiece of Interest: ${purchasedItem || 'The New Season Edit'}\nNotes: "${comment || 'Impressive collection and presentation'}"\n- ${name || 'Prospective Client'}`;
+  const whatsappMessage = `Hi ${STORE_CONFIG.brandName}, I would like to submit feedback on the collection:\nTopic: ${feedbackType}\nRating: ${rating}/5 Stars\nPiece of Interest: ${purchasedItem || 'Blooming Vichitra Silk Lehenga'}\nNotes: "${comment || 'Impressive collection and presentation'}"\n- ${name || 'Prospective Client'}`;
   const whatsappUrl = buildWhatsAppLink(whatsappMessage);
 
   return (
@@ -75,10 +75,10 @@ export const FeedbackSection: React.FC = () => {
           </h2>
           <div className="w-12 h-0.5 bg-[#C5A880] mx-auto mt-3 mb-3" />
           <p className="text-sm sm:text-base text-[#5A687D] font-normal leading-relaxed">
-            Share feedback on silhouettes, fabric drape, and digital catalogue experience.
+            Share feedback on fabric quality, embroidery finish, 7.5m flair, and catalogue experience.
           </p>
           <span className="inline-block mt-2 text-[11px] text-[#7A889B] tracking-wider uppercase font-medium bg-[#F2EFE9] px-3 py-1 rounded-full border border-[#E9E5DD]">
-            Demonstrative Feedback Module • Sample Concept
+            Customer Feedback & Boutique Ratings
           </span>
         </div>
 
@@ -105,7 +105,7 @@ export const FeedbackSection: React.FC = () => {
             className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-full bg-[#0C182B] hover:bg-[#16253D] text-[#FAF9F6] text-xs font-semibold uppercase tracking-wider shadow-xs active:scale-95 transition-all cursor-pointer"
           >
             <MessageSquarePlus className="w-4 h-4 text-[#C5A880]" />
-            <span>{isFormOpen ? 'Close Feedback Form' : 'Submit Sample Feedback'}</span>
+            <span>{isFormOpen ? 'Close Feedback Form' : 'Submit Feedback'}</span>
           </button>
         </div>
 
@@ -115,7 +115,7 @@ export const FeedbackSection: React.FC = () => {
             <div className="border-b border-[#E9E5DD] pb-3 mb-5 flex items-center justify-between">
               <div>
                 <h3 className="font-serif text-xl text-[#0C182B] font-medium">
-                  Submit Feedback on AZORIA Collection
+                  Submit Feedback on {STORE_CONFIG.brandName}
                 </h3>
                 <p className="text-xs text-[#7A889B] mt-0.5">
                   Demonstrative feedback test form for this digital catalogue concept.

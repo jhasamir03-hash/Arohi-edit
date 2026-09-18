@@ -28,12 +28,34 @@ export interface BoutiqueFeedback {
   comment: string;
 }
 
+export interface ProductCholiSpec {
+  fabric: string;
+  work: string;
+  inner: string;
+  size: string;
+}
+
+export interface ProductLehengaSpec {
+  fabric: string;
+  work: string;
+  inner: string;
+  flair: string;
+  construction: string;
+  size: string;
+}
+
+export interface ProductDupattaSpec {
+  fabric: string;
+  size: string;
+  work: string;
+}
+
 export interface Product {
   id: string;
   name: string;
   category: CategoryType;
-  samplePrice?: number;
-  samplePriceDisplay?: string;
+  price: number;
+  priceDisplay: string;
   isSample: boolean;
   fabric: string;
   silhouette: string;
@@ -44,6 +66,11 @@ export interface Product {
   featured?: boolean;
   occasion?: string;
   details?: string[];
+  choli: ProductCholiSpec;
+  lehenga: ProductLehengaSpec;
+  dupatta: ProductDupattaSpec;
+  weight: string;
+  qualityBadges: string[];
   reviews?: ProductReview[];
   rating?: number;
   reviewCount?: number;

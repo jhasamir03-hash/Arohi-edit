@@ -1,5 +1,6 @@
 import React from 'react';
 import { STORE_CONFIG, buildWhatsAppLink } from '../config';
+import { getLehengaFallbackSvg } from '../utils/productImages';
 import { MessageCircle, ArrowDown } from 'lucide-react';
 
 interface HeroProps {
@@ -15,7 +16,10 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
       <div className="absolute inset-0 z-0">
         <img
           src={hero.heroImage}
-          alt="AZORIA The New Season Edit"
+          alt={`${STORE_CONFIG.brandName} Festive Collection`}
+          onError={(e) => {
+            e.currentTarget.src = getLehengaFallbackSvg(hero.heroImage);
+          }}
           className="w-full h-full object-cover object-center opacity-35 scale-102 transition-transform duration-1000"
           loading="eager"
         />

@@ -24,12 +24,12 @@ export const Header: React.FC<HeaderProps> = ({
     <header className="sticky top-0 z-40 bg-[#FAF9F6]/95 backdrop-blur-md border-b border-[#E9E5DD] transition-all">
       {/* Top subtle editorial brand announcement banner */}
       <div className="bg-[#0C182B] text-[#FAF9F6] px-4 py-1.5 text-[11px] font-medium tracking-[0.2em] uppercase text-center flex items-center justify-center gap-2">
-        <span className="text-[#C5A880]">AZORIA</span>
+        <span className="text-[#C5A880] font-bold">{STORE_CONFIG.brandName}</span>
         <span className="text-white/30">•</span>
-        <span className="text-[#FAF9F6]/90">The New Season Edit</span>
+        <span className="text-[#FAF9F6]/90">Pure Blooming Vichitra Silk • ₹1,500 Flat</span>
         <span className="hidden sm:inline text-white/30">•</span>
         <span className="hidden sm:inline text-[#FAF9F6]/80 text-[10px] tracking-[0.15em]">
-          Sample Digital Catalogue Concept
+          7.50M Royal Flair with Can Can
         </span>
       </div>
 

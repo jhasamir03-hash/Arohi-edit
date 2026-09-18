@@ -50,15 +50,15 @@ export const ProductGrid: React.FC<ProductGridProps> = ({
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-8 sm:mb-12 gap-5 border-b border-[#E9E5DD] pb-6 sm:pb-8">
           <div>
             <div className="text-[10px] sm:text-xs font-semibold tracking-[0.25em] text-[#C5A880] uppercase mb-1.5">
-              The Seasonal Selection
+              Shree Fashion Collection
             </div>
             <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl text-[#0C182B] font-normal tracking-tight">
-              Featured Edit
+              Festive Lehenga Edit
             </h2>
             <p className="text-xs sm:text-sm text-[#5A687D] mt-2 font-normal">
               {selectedCategory === 'All'
-                ? `Showing ${filteredProducts.length} sample silhouettes across all categories`
-                : `Showing ${filteredProducts.length} sample silhouettes in ${selectedCategory}`}
+                ? `Showing all ${filteredProducts.length} blooming Vichitra silk lehengas • Flat ₹1,500`
+                : `Showing ${filteredProducts.length} pieces in ${selectedCategory} • Flat ₹1,500`}
             </p>
           </div>
 
@@ -70,7 +70,7 @@ export const ProductGrid: React.FC<ProductGridProps> = ({
               id="product-search-input"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Search silk, drape, cape, velvet..."
+              placeholder="Search lehenga, color, bandhani, mirror..."
               className="w-full pl-9 pr-8 py-2.5 bg-white border border-[#E9E5DD] rounded-full text-xs sm:text-sm text-[#0C182B] placeholder-[#8B9BB4] focus:outline-none focus:border-[#0C182B] focus:ring-1 focus:ring-[#0C182B] shadow-2xs"
             />
             {searchQuery && (
