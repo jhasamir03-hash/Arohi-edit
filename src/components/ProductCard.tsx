@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Product } from '../types';
 import { buildProductWhatsAppLink } from '../config';
-import { getLehengaFallbackSvg } from '../utils/productImages';
+import { getProductImageUrl, getLehengaFallbackSvg } from '../utils/productImages';
 import { ArrowUpRight, MessageCircle, Sparkles } from 'lucide-react';
 
 interface ProductCardProps {
@@ -11,7 +11,23 @@ interface ProductCardProps {
 
 export const ProductCard: React.FC<ProductCardProps> = ({ product, onOpenDetail }) => {
   const [imageLoaded, setImageLoaded] = useState(false);
-  const [imgSrc, setImgSrc] = useState<string>(product.images[0]);
+  const [imgSrc, setImgSrc] = useState<string>(() => getProductImageUrl(product.images[0], product.id));
+
+  useEffect(() => {
+    setImgSrc(getProductImageUrl(product.images[0], product.id));
+
+    const handleCustomUpdate = (e: Event) => {
+      const customEvent = e as CustomEvent<{ productId?: string }>;
+      if (!customEvent.detail || customEvent.detail.productId === product.id) {
+        setImgSrc(getProductImageUrl(product.images[0], product.id));
+      }
+    };
+
+    window.addEventListener('sfc_image_updated', handleCustomUpdate);
+    return () => {
+      window.removeEventListener('sfc_image_updated', handleCustomUpdate);
+    };
+  }, [product.id, product.images]);
 
   const handleEnquireClick = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -19,7 +35,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, onOpenDetail 
   };
 
   const handleImageError = () => {
-    // If the client image asset is not found on disk, gracefully use the styled SVG fallback
+    // If the image fails, gracefully fallback to styled SVG
     setImgSrc(getLehengaFallbackSvg(product.images[0]));
     setImageLoaded(true);
   };
@@ -37,8 +53,8 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, onOpenDetail 
           onLoad={() => setImageLoaded(true)}
           onError={handleImageError}
           referrerPolicy="no-referrer"
-          className={`w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700 ease-out ${
-            imageLoaded ? 'opacity-100' : 'opacity-0'
+          className={`w-full h-full object-cover object-center group-hover:scale-105 transition-all duration-500 ease-out ${
+            imageLoaded ? 'opacity-100 scale-100' : 'opacity-90'
           }`}
           loading="lazy"
         />

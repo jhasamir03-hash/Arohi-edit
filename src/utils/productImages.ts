@@ -1,6 +1,99 @@
 // Visual fallback SVG generator matching the client's lehenga photographs
 // Used gracefully if the immutable asset file is waiting to sync in the preview environment
 
+import scarletImg from '../assets/images/scarlet_lehenga_1789720666884.jpg';
+import blackMirrorImg from '../assets/images/black_mirror_lehenga_1789720682407.jpg';
+import whitePinkImg from '../assets/images/white_pink_lehenga_1789720699076.jpg';
+import maroonPatolaImg from '../assets/images/maroon_patola_lehenga_1789720751427.jpg';
+import magentaNavyImg from '../assets/images/magenta_navy_lehenga_1789720764555.jpg';
+import purpleGoldImg from '../assets/images/purple_gold_lehenga_1789720714817.jpg';
+import oliveEmeraldImg from '../assets/images/olive_emerald_lehenga_1789720781979.jpg';
+import peacockTealImg from '../assets/images/peacock_teal_lehenga_1789720797868.jpg';
+import peacockPinkImg from '../assets/images/peacock_pink_lehenga_1789720732537.jpg';
+import ivoryCrimsonImg from '../assets/images/ivory_crimson_lehenga_1789720818003.jpg';
+
+export const LEHENGA_ASSETS = {
+  scarlet: scarletImg,
+  blackMirror: blackMirrorImg,
+  whitePink: whitePinkImg,
+  maroonPatola: maroonPatolaImg,
+  magentaNavy: magentaNavyImg,
+  purpleGold: purpleGoldImg,
+  oliveEmerald: oliveEmeraldImg,
+  peacockTeal: peacockTealImg,
+  peacockPink: peacockPinkImg,
+  ivoryCrimson: ivoryCrimsonImg,
+};
+
+export const LEHENGA_IMAGE_MAP: Record<string, string> = {
+  'IMG_20260917_204813_114.jpg': scarletImg,
+  '/IMG_20260917_204813_114.jpg': scarletImg,
+  'IMG_20260917_204829_669.jpg': blackMirrorImg,
+  '/IMG_20260917_204829_669.jpg': blackMirrorImg,
+  'IMG_20260917_204802_757.jpg': whitePinkImg,
+  '/IMG_20260917_204802_757.jpg': whitePinkImg,
+  'IMG_20260917_204832_870.jpg': maroonPatolaImg,
+  '/IMG_20260917_204832_870.jpg': maroonPatolaImg,
+  'IMG_20260917_204836_235.jpg': magentaNavyImg,
+  '/IMG_20260917_204836_235.jpg': magentaNavyImg,
+  'IMG_20260917_204839_902.jpg': purpleGoldImg,
+  '/IMG_20260917_204839_902.jpg': purpleGoldImg,
+  'IMG_20260917_204843_035.jpg': oliveEmeraldImg,
+  '/IMG_20260917_204843_035.jpg': oliveEmeraldImg,
+  'IMG_20260917_204729_676.jpg': peacockTealImg,
+  '/IMG_20260917_204729_676.jpg': peacockTealImg,
+  'IMG_20260917_204729_674.jpg': peacockPinkImg,
+  '/IMG_20260917_204729_674.jpg': peacockPinkImg,
+  'IMG_20260917_204729_677.jpg': ivoryCrimsonImg,
+  '/IMG_20260917_204729_677.jpg': ivoryCrimsonImg,
+};
+
+export function getProductImageUrl(filenameOrPath: string, productId?: string): string {
+  if (productId && typeof window !== 'undefined') {
+    try {
+      const custom = localStorage.getItem(`sfc_custom_image_${productId}`);
+      if (custom) return custom;
+    } catch {
+      // Ignore localStorage access errors
+    }
+  }
+  if (!filenameOrPath) return scarletImg;
+  if (filenameOrPath.startsWith('data:') || filenameOrPath.startsWith('blob:') || filenameOrPath.startsWith('http://') || filenameOrPath.startsWith('https://')) {
+    return filenameOrPath;
+  }
+  const clean = filenameOrPath.replace(/^\//, '');
+  if (LEHENGA_IMAGE_MAP[filenameOrPath]) return LEHENGA_IMAGE_MAP[filenameOrPath];
+  if (LEHENGA_IMAGE_MAP[clean]) return LEHENGA_IMAGE_MAP[clean];
+  return filenameOrPath;
+}
+
+export function saveCustomProductImage(productId: string, dataUrl: string): void {
+  try {
+    localStorage.setItem(`sfc_custom_image_${productId}`, dataUrl);
+    window.dispatchEvent(new CustomEvent('sfc_image_updated', { detail: { productId } }));
+  } catch (err) {
+    console.error('Failed to save custom image', err);
+  }
+}
+
+export function resetCustomProductImage(productId: string): void {
+  try {
+    localStorage.removeItem(`sfc_custom_image_${productId}`);
+    window.dispatchEvent(new CustomEvent('sfc_image_updated', { detail: { productId } }));
+  } catch (err) {
+    console.error('Failed to reset custom image', err);
+  }
+}
+
+export function hasCustomProductImage(productId: string): boolean {
+  if (typeof window === 'undefined') return false;
+  try {
+    return !!localStorage.getItem(`sfc_custom_image_${productId}`);
+  } catch {
+    return false;
+  }
+}
+
 interface LehengaVisualMeta {
   primaryColor: string;
   secondaryColor: string;
@@ -193,5 +286,5 @@ export function getLehengaFallbackSvg(filename: string): string {
 </svg>
   `.trim();
 
-  return `data:image/svg+xml;utf8,${encodeURIComponent(svg)}`;
+  return `data:image/svg+xml;charset=utf-8,${encodeURIComponent(svg)}`;
 }

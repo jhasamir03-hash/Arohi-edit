@@ -1,6 +1,6 @@
 import React from 'react';
 import { STORE_CONFIG, buildWhatsAppLink } from '../config';
-import { getLehengaFallbackSvg } from '../utils/productImages';
+import { getProductImageUrl, getLehengaFallbackSvg } from '../utils/productImages';
 import { MessageCircle, ArrowDown } from 'lucide-react';
 
 interface HeroProps {
@@ -15,11 +15,12 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
       {/* Editorial Fashion Photography Background with Subtle Deep Navy Overlay */}
       <div className="absolute inset-0 z-0">
         <img
-          src={hero.heroImage}
+          src={getProductImageUrl(hero.heroImage)}
           alt={`${STORE_CONFIG.brandName} Festive Collection`}
           onError={(e) => {
             e.currentTarget.src = getLehengaFallbackSvg(hero.heroImage);
           }}
+          referrerPolicy="no-referrer"
           className="w-full h-full object-cover object-center opacity-35 scale-102 transition-transform duration-1000"
           loading="eager"
         />

@@ -1,7 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Product } from '../types';
 import { buildProductWhatsAppLink, STORE_CONFIG } from '../config';
-import { getLehengaFallbackSvg } from '../utils/productImages';
+import {
+  getProductImageUrl,
+  getLehengaFallbackSvg,
+  saveCustomProductImage,
+  resetCustomProductImage,
+  hasCustomProductImage,
+} from '../utils/productImages';
 import { ProductReviewsSection } from './ProductReviewsSection';
 import {
   X,
@@ -15,6 +21,9 @@ import {
   Feather,
   Scale,
   Award,
+  Upload,
+  RotateCcw,
+  Camera,
 } from 'lucide-react';
 
 interface ProductDetailModalProps {
@@ -33,24 +42,52 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
   const [activeImageIndex, setActiveImageIndex] = useState(0);
   const [copiedNotification, setCopiedNotification] = useState(false);
   const [currentImgSrc, setCurrentImgSrc] = useState<string>('');
+  const [hasCustomImg, setHasCustomImg] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     setActiveImageIndex(0);
     if (product) {
       document.body.style.overflow = 'hidden';
-      setCurrentImgSrc(product.images[0]);
+      const targetImg = product.images[activeImageIndex] || product.images[0];
+      setCurrentImgSrc(getProductImageUrl(targetImg, product.id));
+      setHasCustomImg(hasCustomProductImage(product.id));
     } else {
       document.body.style.overflow = 'unset';
     }
     return () => {
       document.body.style.overflow = 'unset';
     };
-  }, [product]);
+  }, [product, activeImageIndex]);
 
   if (!product) return null;
 
   const handleImgError = () => {
     setCurrentImgSrc(getLehengaFallbackSvg(product.images[activeImageIndex] || product.images[0]));
+  };
+
+  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file || !product) return;
+    const reader = new FileReader();
+    reader.onload = () => {
+      if (typeof reader.result === 'string') {
+        saveCustomProductImage(product.id, reader.result);
+        setCurrentImgSrc(reader.result);
+        setHasCustomImg(true);
+      }
+    };
+    reader.readAsDataURL(file);
+    // Reset file input value so user can upload again if needed
+    e.target.value = '';
+  };
+
+  const handleResetImage = () => {
+    if (!product) return;
+    resetCustomProductImage(product.id);
+    const targetImg = product.images[activeImageIndex] || product.images[0];
+    setCurrentImgSrc(getProductImageUrl(targetImg));
+    setHasCustomImg(false);
   };
 
   const whatsappUrl = buildProductWhatsAppLink(product.name, product.priceDisplay);
@@ -160,12 +197,43 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
                 </div>
               </div>
 
-              {/* Client Asset Verification Tag */}
-              <div className="p-2.5 rounded-xl bg-[#F0F4F8] border border-[#D5E0EA] text-[11px] text-[#334E68] flex items-center justify-between">
-                <span className="font-medium text-[#0C182B]">Client Product Asset:</span>
-                <code className="text-[10px] font-mono bg-white px-2 py-0.5 rounded border border-[#CBD5E1] text-[#1E293B]">
-                  {product.images[0].replace(/^\//, '')}
-                </code>
+              {/* Client Asset Tag & Instant Photo Upload / Replace Tool */}
+              <div className="p-3 rounded-xl bg-[#F0F4F8] border border-[#D5E0EA] text-[11px] text-[#334E68] space-y-2">
+                <div className="flex items-center justify-between">
+                  <span className="font-medium text-[#0C182B]">Client Asset File:</span>
+                  <code className="text-[10px] font-mono bg-white px-2 py-0.5 rounded border border-[#CBD5E1] text-[#1E293B]">
+                    {product.images[0].replace(/^\//, '')}
+                  </code>
+                </div>
+
+                <div className="pt-2 border-t border-[#D5E0EA]/70 flex items-center justify-between gap-2">
+                  <input
+                    ref={fileInputRef}
+                    type="file"
+                    accept="image/*"
+                    onChange={handleFileUpload}
+                    className="hidden"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => fileInputRef.current?.click()}
+                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#0C182B] hover:bg-[#1A2D4C] text-white text-[10px] font-semibold tracking-wide transition-colors cursor-pointer"
+                  >
+                    <Upload className="w-3 h-3 text-[#C5A880]" />
+                    <span>{hasCustomImg ? 'Change Photo' : 'Upload Client Photo'}</span>
+                  </button>
+
+                  {hasCustomImg && (
+                    <button
+                      type="button"
+                      onClick={handleResetImage}
+                      className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-white border border-[#CBD5E1] hover:bg-[#F8FAFC] text-[#475569] text-[10px] font-medium transition-colors cursor-pointer"
+                    >
+                      <RotateCcw className="w-2.5 h-2.5" />
+                      <span>Reset</span>
+                    </button>
+                  )}
+                </div>
               </div>
             </div>
 
@@ -374,11 +442,12 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
                   >
                     <div className="aspect-[4/5] rounded-lg overflow-hidden bg-[#0C182B] mb-2">
                       <img
-                        src={rel.images[0]}
+                        src={getProductImageUrl(rel.images[0])}
                         alt={rel.name}
                         onError={(e) => {
                           e.currentTarget.src = getLehengaFallbackSvg(rel.images[0]);
                         }}
+                        referrerPolicy="no-referrer"
                         className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-300"
                         loading="lazy"
                       />

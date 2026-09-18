@@ -22,68 +22,55 @@ export const Header: React.FC<HeaderProps> = ({
 
   return (
     <header className="sticky top-0 z-40 bg-[#FAF9F6]/95 backdrop-blur-md border-b border-[#E9E5DD] transition-all">
-      {/* Top subtle editorial brand announcement banner */}
-      <div className="bg-[#0C182B] text-[#FAF9F6] px-4 py-1.5 text-[11px] font-medium tracking-[0.2em] uppercase text-center flex items-center justify-center gap-2">
-        <span className="text-[#C5A880] font-bold">{STORE_CONFIG.brandName}</span>
-        <span className="text-white/30">•</span>
-        <span className="text-[#FAF9F6]/90">Pure Blooming Vichitra Silk • ₹1,500 Flat</span>
-        <span className="hidden sm:inline text-white/30">•</span>
-        <span className="hidden sm:inline text-[#FAF9F6]/80 text-[10px] tracking-[0.15em]">
-          7.50M Royal Flair with Can Can
-        </span>
-      </div>
-
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16 sm:h-20">
-          {/* Mobile Menu Button */}
-          <div className="flex items-center lg:hidden">
+        <div className="relative flex items-center justify-between h-16 sm:h-20">
+          {/* Left: Mobile Toggle & Desktop Navigation */}
+          <div className="flex items-center">
+            {/* Mobile Menu Button */}
             <button
               id="mobile-nav-toggle-btn"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="p-2 -ml-2 text-[#0C182B] hover:bg-[#F2EFE9] rounded-lg transition-colors cursor-pointer"
+              className="p-2 -ml-2 text-[#0C182B] hover:bg-[#F2EFE9] rounded-lg transition-colors cursor-pointer lg:hidden"
               aria-label="Toggle navigation menu"
             >
               {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
             </button>
+
+            {/* Desktop Navigation */}
+            <nav className="hidden lg:flex items-center space-x-8">
+              <button
+                onClick={onNavigateHome}
+                className="text-xs tracking-[0.18em] uppercase font-medium text-[#0C182B] hover:text-[#C5A880] transition-colors py-1 cursor-pointer"
+              >
+                Home
+              </button>
+              <button
+                onClick={onNavigateCollections}
+                className="text-xs tracking-[0.18em] uppercase font-medium text-[#3A475A] hover:text-[#0C182B] transition-colors py-1 cursor-pointer"
+              >
+                Collections
+              </button>
+              <button
+                onClick={onNavigateCategories}
+                className="text-xs tracking-[0.18em] uppercase font-medium text-[#3A475A] hover:text-[#0C182B] transition-colors py-1 cursor-pointer"
+              >
+                Categories
+              </button>
+            </nav>
           </div>
 
-          {/* Logo / Brand Name */}
+          {/* Center: Text Logo (No Subheading) */}
           <div
             onClick={onNavigateHome}
-            className="cursor-pointer flex flex-col items-center lg:items-start group select-none"
+            className="absolute left-1/2 -translate-x-1/2 cursor-pointer flex items-center justify-center group select-none text-center max-w-[65%] sm:max-w-none"
           >
-            <span className="font-serif text-2xl sm:text-3xl font-semibold tracking-[0.28em] text-[#0C182B] group-hover:text-[#16253D] transition-colors uppercase pl-1">
+            <span className="font-serif text-lg sm:text-2xl lg:text-3xl font-semibold tracking-[0.22em] sm:tracking-[0.28em] text-[#0C182B] group-hover:text-[#16253D] transition-colors uppercase whitespace-nowrap truncate sm:overflow-visible">
               {STORE_CONFIG.brandName}
-            </span>
-            <span className="text-[9px] tracking-[0.35em] text-[#C5A880] uppercase font-medium">
-              {STORE_CONFIG.tagline}
             </span>
           </div>
 
-          {/* Desktop Navigation */}
-          <nav className="hidden lg:flex items-center space-x-10">
-            <button
-              onClick={onNavigateHome}
-              className="text-xs tracking-[0.18em] uppercase font-medium text-[#0C182B] hover:text-[#C5A880] transition-colors py-1 cursor-pointer"
-            >
-              Home
-            </button>
-            <button
-              onClick={onNavigateCollections}
-              className="text-xs tracking-[0.18em] uppercase font-medium text-[#3A475A] hover:text-[#0C182B] transition-colors py-1 cursor-pointer"
-            >
-              Collections
-            </button>
-            <button
-              onClick={onNavigateCategories}
-              className="text-xs tracking-[0.18em] uppercase font-medium text-[#3A475A] hover:text-[#0C182B] transition-colors py-1 cursor-pointer"
-            >
-              Categories
-            </button>
-          </nav>
-
           {/* Right Action: WhatsApp Icon / Button */}
-          <div className="flex items-center gap-3">
+          <div className="flex items-center justify-end">
             <a
               id="header-whatsapp-btn"
               href={buildWhatsAppLink()}

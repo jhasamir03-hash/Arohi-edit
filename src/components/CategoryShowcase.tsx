@@ -1,7 +1,7 @@
 import React from 'react';
 import { CATEGORIES_DATA } from '../config';
 import { CategoryType, Product } from '../types';
-import { getLehengaFallbackSvg } from '../utils/productImages';
+import { getProductImageUrl, getLehengaFallbackSvg } from '../utils/productImages';
 import { ArrowRight } from 'lucide-react';
 
 interface CategoryShowcaseProps {
@@ -54,11 +54,12 @@ export const CategoryShowcase: React.FC<CategoryShowcaseProps> = ({
               >
                 {/* Background Editorial Placeholder Image */}
                 <img
-                  src={cat.image}
+                  src={getProductImageUrl(cat.image)}
                   alt={cat.name}
                   onError={(e) => {
                     e.currentTarget.src = getLehengaFallbackSvg(cat.image);
                   }}
+                  referrerPolicy="no-referrer"
                   className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700"
                   loading="lazy"
                 />
